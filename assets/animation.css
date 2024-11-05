@@ -1,0 +1,19 @@
+.announcement-bar {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.announcement-bar__message {
+    display: inline-block;
+    padding-left: 0;
+    animation: scrollText 10s linear infinite;
+}
+
+@keyframes scrollText {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}

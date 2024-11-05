@@ -1,0 +1,212 @@
+.cards-font{
+    font-family: MontserratDT, sans-serif !important;
+}
+
+
+.montserrat
+{
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
+body{
+    font-family: MontserratDT ;
+
+}
+
+.font-heading{
+    font-family: MontserratDT, sans-serif !important;
+    font-weight: 900;
+    font-style: normal;
+    text-transform: uppercase;
+    letter-spacing: 0;
+    line-height: 1.1;
+}
+
+.push-btn-surface{
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 14px !important;
+    padding: 1rem;
+    text-align: center;
+    font-size: 2rem;
+    background: rgb(4,30,66);
+    color: rgb(var(--color-button-text));
+    box-shadow: inset 0 0 0 1px rgb(4,30,66);
+    box-sizing: border-box;
+    transition: transform .1s cubic-bezier(.215,.61,.355,1);
+    font-weight: 700;
+}
+
+
+.wrapper{
+    border-top-right-radius: 18px;
+    border-bottom-left-radius: 18px;
+    border-bottom-right-radius: 18px;
+}
+body{
+    background: rgb(242,242,242) !important;
+}
+
+/* Opacity for placeholder images */
+.placeholder-image {
+    opacity: 0.2;
+
+}
+
+/* Opacity for added product images */
+.product-image {
+    opacity: 1;
+}
+
+.box-selection{
+    background: white;
+}
+
+.top-stick{
+    margin-top:-15px;
+}
+
+
+.button-danger .push-btn-surface{
+    background: red;
+    padding:13px;
+}
+
+.box-slot {
+    position: relative;
+    width: 80px; /* Adjust based on design */
+    height: 80px;
+    display: inline-block;
+    margin: 5px;
+}
+
+.box-slot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-item {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+
+.product-item:hover .remove-icon {
+    display: block;
+}
+
+.empty-box-message {
+    text-align: center;
+    color: #888;
+}
+
+
+
+.bap-remove-selected-doughnut {
+    position: absolute;
+    left: -10px;
+    top: -10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    background-color: #E80A35;
+    color: #fff;
+    z-index: 1000;
+}
+
+.card{
+    position: relative;
+    border-radius: 1rem;
+    border-width: 0;
+    --tw-bg-opacity: 1;
+    font-size: 2rem;
+    line-height: 1.2;
+    --media-drop-shadow-size: 0;
+    --media-drop-shadow-top-size: 0;
+    --media-drop-shadow-left-size: 0;
+    border-color: rgb(40,30,66);
+    z-index: 1;
+}
+
+.bap-preview-wrapper {
+    position: sticky;
+    height: 100vh;
+    top: 15px;
+    overflow: scroll;
+}
+
+.selected{
+    background-color: white;
+}
+
+
+.bap-greeting-cards .greeting-card {
+    border-radius: 18px;
+}
+
+.bap-greeting-cards .greeting-card img {
+    border-radius: 18px;
+}
+
+.break-words {
+    overflow-wrap: break-word;
+}
+
+button, input, optgroup, select, textarea {
+    font-family: inherit;
+    font-feature-settings: inherit;
+    font-variation-settings: inherit;
+    font-size: 100%;
+    font-weight: inherit;
+    line-height: inherit;
+    color: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+.gift-message-text-box {
+    width: 100%;
+    border: 1px solid #eee;
+    border-radius: 18px;
+    margin-top: 15px;
+    padding: 20px;
+    height: 100%;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.pb-button-shadow{
+    padding-bottom: 4px;
+}
+
+
+.theme-icon path {
+    vector-effect: non-scaling-stroke;
+    stroke: currentColor;
+    stroke-width: 2;
+}
+
+.text-scheme-text {
+    --tw-text-opacity: 1;
+    color: rgba(40,30,66,255);
+}
+
+.doughnut-quantity {
+    font-weight: 900;
+    font-style: normal;
+    text-transform: uppercase;
+    letter-spacing: 0;
+    line-height: 1.1;
+}
+
+.input--no-border {
+    box-shadow: none;
+}
