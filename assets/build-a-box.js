@@ -7,7 +7,6 @@ let products = []; // Declare an empty array to hold product data
 
 function setProducts(productData) {
     products = productData; // Assign fetched product data to the products array
-    console.log(products);
 
 }
 
@@ -19,7 +18,6 @@ function randomizeProducts() {
 
     // Randomly select products
     while (i < maxBoxItems) {
-        console.log("hello");
         const randomIndex = Math.floor(Math.random() * products.length);
         const randomProduct = products[randomIndex];
 
@@ -36,11 +34,11 @@ function randomizeProducts() {
 
 window.onload = function() {
     if(!isBoxLimitSet())
-        setBoxLimit(6,false); // Set your default box limit here (e.g., 2, 6, or 8)
+        setBoxLimit(8,false); // Set your default box limit here (e.g., 2, 6, or 8)
 };
 
 function setBoxLimit(limit,wantLoad) {
-    if (![2, 6, 8].includes(limit)) {
+    if (![4, 8, 12].includes(limit)) {
         alert("Invalid box limit. Please choose 2, 6, or 8.");
         return;
     }
@@ -48,6 +46,16 @@ function setBoxLimit(limit,wantLoad) {
     maxBoxItems = limit; // Set the box limit to the chosen value
     clearBox(); // Clear the box for a new selection
 
+    const ulObj = document.getElementById('boxItemsList');
+    if(limit == 4)
+    {
+        ulObj.classList.remove('lg:grid-cols-4');
+        ulObj.classList.add('lg:grid-cols-3');
+    }
+    else{
+        ulObj.classList.remove('lg:grid-cols-3');
+        ulObj.classList.add('lg:grid-cols-4');
+    }
 
     // Store the limit in localStorage
     localStorage.setItem("selectedBoxLimit", limit);
@@ -100,7 +108,6 @@ function addToBox(productId, productName, productImage,price) {
     let productVal = document.getElementById(`quantity-${productId}`).value;
 
 
-    console.log(price);
 
     if (selectedProducts.length >= maxBoxItems) {
         return;
@@ -146,13 +153,13 @@ function updateBoxUI() {
 
     for (let i = 0; i < maxBoxItems; i++) {
         const item = document.createElement("li");
-        item.className = "rounded-3xl box-slot";
+        item.className = "rounded-3xl box-slot ";
 
         if (selectedProducts[i]) {
             // Product slot
             item.innerHTML = `
-                <div class="product-item" onmouseover="showRemoveIcon(this)" onmouseout="hideRemoveIcon(this)">
-                    <img src="${selectedProducts[i].image}" alt="${selectedProducts[i].name}" class="rounded-3xl product-image" />
+                <div class="product-item w-full h-full" onmouseover="showRemoveIcon(this)" onmouseout="hideRemoveIcon(this)">
+                    <img src="${selectedProducts[i].image}" alt="${selectedProducts[i].name}" class="rounded-3xl product-image h-full" />
 <!--                    <svg  xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 20 20" fill="none" style="margin: 4px; padding: 5px; display: flex; align-items: center; justify-content: center;" >-->
 <!--                          <path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="#FFFFFF"></path>-->
 <!--                        </svg>-->
@@ -166,7 +173,7 @@ function updateBoxUI() {
             `;
         } else {
             // Placeholder slot
-            item.innerHTML = `<img src="https://cdn.shopify.com/s/files/1/0901/2340/3544/files/placeholder.webp?v=1730833807" alt="Placeholder" class="rounded-3xl placeholder-image" />`;
+            item.innerHTML = `<img src="https://cdn.shopify.com/s/files/1/0901/2340/3544/files/samosa-icon.png?v=1731504729" alt="Placeholder" class="rounded-3xl placeholder-image" />`;
         }
 
         boxItemsList.appendChild(item);
@@ -226,14 +233,12 @@ function increaseQuantity(id) {
     }
     const quantityInput = document.getElementById(`quantity-${id}`);
     let quantity = parseInt(quantityInput.value);
-    console.log(quantity);
     quantity++;
     quantityInput.value = quantity;
 }
 
 // Function to decrease quantity
 function decreaseQuantity(id) {
-    console.log(id);
     const quantityInput = document.getElementById(`quantity-${id}`);
     let quantity = parseInt(quantityInput.value);
 
@@ -260,3 +265,26 @@ function isBoxLimitSet() {
     const storedLimit = localStorage.getItem("selectedBoxLimit");
     return storedLimit !== null; // Returns true if the limit is set, false otherwise
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    const toggleButton = document.getElementById('toggle-button');
+    const deliveryDetails = document.getElementById('delivery-details');
+
+    toggleButton.addEventListener('click', function () {
+        const isOpen = deliveryDetails.style.maxHeight && deliveryDetails.style.maxHeight !== '0px';
+        deliveryDetails.style.maxHeight = isOpen ? '0' : '500px'; // Adjust 500px to fit your content's height
+        toggleButton.setAttribute('aria-expanded', !isOpen);
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const toggleButton = document.getElementById('toggle-button-2');
+    const deliveryDetails = document.getElementById('delivery-details-2');
+
+    toggleButton.addEventListener('click', function () {
+        const isOpen = deliveryDetails.style.maxHeight && deliveryDetails.style.maxHeight !== '0px';
+        deliveryDetails.style.maxHeight = isOpen ? '0' : '500px'; // Adjust 500px to fit your content's height
+        toggleButton.setAttribute('aria-expanded', !isOpen);
+    });
+});

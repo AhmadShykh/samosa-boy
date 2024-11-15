@@ -30,7 +30,6 @@ body{
     display: inline-block;
     cursor: pointer;
     border-radius: 14px !important;
-    padding: 1rem;
     text-align: center;
     font-size: 2rem;
     background: rgb(4,30,66);
@@ -78,10 +77,9 @@ body{
 
 .box-slot {
     position: relative;
-    width: 80px; /* Adjust based on design */
-    height: 80px;
+    width: 100%; /* Adjust based on design */
+    height: 100%;
     display: inline-block;
-    margin: 5px;
 }
 
 .box-slot img {

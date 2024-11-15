@@ -6,14 +6,14 @@
 .announcement-bar__message {
     display: inline-block;
     padding-left: 0;
-    animation: scrollText 10s linear infinite;
+    animation: scrollText 45s linear infinite;
 }
 
 @keyframes scrollText {
-    from {
-        transform: translateX(100%);
+    0% {
+        transform: translateX(0); /* Start from the left */
     }
-    to {
-        transform: translateX(-100%);
+    100% {
+        transform: translateX(-50%); /* Move to the left by half its width */
     }
 }
