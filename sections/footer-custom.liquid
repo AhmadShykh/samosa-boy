@@ -33,15 +33,21 @@
 
             </div>
             <div class="flex flex-col xl:flex-row w-4-cols xl:w-6-cols mt-6 lg:mt-0 space-y-2 xl:space-y-0 justify-start">
-                <div class="flex flex-wrap text-white f-body w-full">
 
-                    <a href="/collections/all" class="mr-4 inline-block">Shop</a>
 
-                    <a href="/pages/faqs" class="mr-4 inline-block">FAQ's</a>
+                <ul class="menu flex flex-wrap text-white f-body w-full gap-x-4">
+                    {% if section.settings.selected_menu %}
+                        {% for link in linklists[section.settings.selected_menu].links %}
+                            <li class="menu-item mr-4 inline-block">
+                                <a href="{{ link.url }}">{{ link.title }}</a>
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        <p>No menu selected.</p>
+                    {% endif %}
 
-                    <a href="/pages/contact-us" class="mr-4 inline-block">Contact Us</a>
+                </ul>
 
-                </div>
 
 
             </div>
@@ -63,7 +69,7 @@
 
     </div>
 </div>
-<div class="bg-black flex justify-center py-2">
+<div class="bg-black flex justify-center py-4">
     <div class="container">
         {%- if section.settings.payment_enable -%}
             <div class="">
@@ -88,6 +94,11 @@
   "name": "Customer Footer",
   "tag": "section",
   "settings": [
+    {
+      "type": "link_list",
+      "id": "selected_menu",
+      "label": "Select a Menu"
+    },
     {
       "type": "range",
       "id": "padding_top",
