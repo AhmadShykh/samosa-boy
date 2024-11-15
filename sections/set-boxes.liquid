@@ -1,0 +1,96 @@
+
+{%- style -%}
+    .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+
+    @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+    }
+{%- endstyle -%}
+
+
+<div class="monsterrat bg-pink-400">
+    <div class="section-{{ section.id }}-padding">
+       <div class="flex flex-col items-center mb-12">
+        <div class="mt-8 w-full text-center	px-10" >
+            <h1 class="px-8 md:px-64 py-6 bg-red-600 text-white font-extrabold text-4xl md:text-6xl">SET BOXES</h1>
+        </div>
+       </div>
+
+       <div class="carousel-container">
+              <div class="carousel-track">
+                  {% for product in collections.all.products limit: 6 %}
+                  <div class="carousel-item">
+                    {% include 'custom-product-card', img: product.featured_image, text: product.title, price: product.price %}
+
+                  </div>
+                  {% endfor %}
+              </div>
+        </div>
+
+    </div>
+</div>
+
+{% style  %}
+.custom-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 40px;
+  text-align: center;
+  
+}
+
+/* Medium screens (>=640px) */
+@media (min-width: 640px) {
+  .custom-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+  }
+}
+
+/* Large screens (>=1024px) */
+@media (min-width: 1200px) {
+  .custom-grid {
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+  }
+}
+
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Set Boxes",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Set Boxes"
+    }
+  ]
+}
+{% endschema %}

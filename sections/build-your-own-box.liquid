@@ -1,0 +1,119 @@
+
+{%- style -%}
+    .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+        padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+
+    @media screen and (min-width: 750px) {
+        .section-{{ section.id }}-padding {
+            padding-top: {{ section.settings.padding_top }}px;
+            padding-bottom: {{ section.settings.padding_bottom }}px;
+        }
+    }
+{%- endstyle -%}
+
+
+<div class="monsterrat">
+    <div class ="section-{{ section.id }}-padding">
+        <div class="flex flex-col items-center">
+            <div >
+                <h1 class="px-8 md:px-64 py-6 bg-red-600 text-white font-black text-4xl md:text-6xl">BUILD YOU OWN BOX</h1>
+            </div>
+            <p class=" font-medium mt-12 mb-12 text-lg md:text-3xl">Order before midnight for next day dispatch</p>
+            {% include 'custom-button', url: '/your-order-page-url', text: 'BUILD NOW', textSize:'6' %}
+        </div>
+
+        <div class="custom-grid">
+            {% for product in collections.all.products limit: 4 %}
+                <div class="product-card custom-card">
+                    <img class="product-image" src="{{ product.featured_image | img_url: '450x450' }}" alt="{{ product.title }}">
+                    <div class="product-info">
+                        <div class="product-title  custom-title">{{ product.title }}</div>
+                    </div>
+                    <div class="button-container">
+                        {% include 'custom-button', url: '/your-order-page-url', text: 'BUILD NOW' , textSize:'4' %}
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+
+    </div>
+
+</div>
+
+{% style  %}
+.custom-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr); 
+  gap: 40px;
+  text-align: center; 
+}
+
+.product-card {
+  border-radius: 8px;
+  margin: 0 auto; 
+}
+
+.product-image {
+  width: 100%;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.product-info {
+  height: 10rem;
+  padding: 16px;
+}
+
+.button-container {
+}
+
+@media (min-width: 640px) {
+  .custom-grid {
+    grid-template-columns: repeat(2, 1fr); 
+  }
+}
+
+@media (min-width: 1200px) {
+  .custom-grid {
+    grid-template-columns: repeat(4, 1fr); 
+  }
+}
+
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Build Your Own box",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Build Your Own box"
+    }
+  ]
+}
+{% endschema %}

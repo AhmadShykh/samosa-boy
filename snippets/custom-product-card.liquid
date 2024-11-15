@@ -1,0 +1,41 @@
+
+<div class="custom-div-parent ">
+    <div class="custom-div-child-1  border border-black">.</div>    
+    <div class=" border border-black p-4 bg-white rounded-3xl relative">
+        <img class="custom-height w-full object-cover" src="{{ img | img_url: '450x450' }}" alt="{{ text }}">
+        <div class="mt-2 custom-text">
+            <div class="text-left text-4xl text-black font-black franxurter">{{ text }}</div>
+            <div class="text-left text-sm font-semibold mt-4">{{ price | money_with_currency }}</div>
+        </div>
+        <div class="mt-12">
+            {% include 'custom-add-cart-button', url: '/your-order-page-url', text: 'Add to cart' %}
+        </div>
+    </div>
+    
+</div>
+
+<style>
+.custom-div-parent {
+    position: relative;
+    z-index: 1;
+}
+
+.custom-div-child-1 {
+    position: absolute;
+    top: 5px;
+    right: -5px; 
+    width: 100%; 
+    height: 100%;
+    z-index: -1;
+    background-color: rgb(196, 60, 114);
+    border-radius: 20px;
+}
+
+.custom-height {
+    height: 40rem;
+}
+
+.custom-text {
+    height: 6rem;
+}
+</style>
