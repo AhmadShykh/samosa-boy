@@ -1,0 +1,52 @@
+{% comment %}
+<div class="relative inline-block rounded-full mb-16">
+    <div class="absolute inset-0 bg-yellow-300 rounded-full transform translate-x-1 translate-y-1 z-0"></div>
+    <a href="{{ url }}" class="relative z-10 inline-block bg-white border-2 border-black rounded-lg shadow-lg text-pink-500 font-extrabold text-4xl py-6 px-16 hover:bg-yellow-300 transition duration-200 ease-in-out">
+        {{ text }}
+    </a>
+</div>
+{% endcomment %}
+<div class="parent-div ">
+    <div class=" background-div  ">.</div>
+    <a href="{{ url }}" class="text-{{ textSize }}xl franxurter font-thin button-link">
+        {{text}}
+    </a>
+</div>
+
+<style>
+.parent-div {
+    position: relative;
+    display: inline-block;
+}
+
+.background-div {
+    position: absolute;
+    top: 5px; 
+    bottom: -5px; 
+    left: 12px; 
+    background-color: yellow;
+    border-radius: 10px; 
+    z-index: 0;
+    border: 2px solid black;
+    width: 97%;
+}
+
+.button-link {
+    position: relative;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 10px; 
+    color: rgb(225, 69, 135); 
+    text-decoration: none;
+    padding: 10px 40px;
+    display: inline-block;
+    z-index: 1;
+    transition: background-color 0.3s;
+}
+
+.button-link:hover {
+    background-color: rgb(255, 255, 186);
+}
+</style>
+
+

@@ -20,7 +20,7 @@ Thumbs.db
 /assets/*.map
 /assets/*.json
 /public/assets/*
-*.liquid
+
 
 # IDE and editor files
 .vscode/
