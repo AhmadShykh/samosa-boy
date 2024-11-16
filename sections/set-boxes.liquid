@@ -44,7 +44,11 @@
   text-align: center;
   
 }
-
+.carousel-track {
+    display: flex;
+    position: relative; /* Ensure positioning is set */
+    width: max-content; /* This ensures the track can expand as needed */
+}
 /* Medium screens (>=640px) */
 @media (min-width: 640px) {
   .custom-grid {
@@ -94,3 +98,36 @@
   ]
 }
 {% endschema %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const container = document.querySelector(".carousel-container");
+    let isDragging = false;
+    let startX;
+    let scrollStartX;
+
+    container.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.pageX;
+        scrollStartX = container.scrollLeft;
+        container.style.cursor = "grabbing"; 
+        e.preventDefault(); 
+    });
+
+    document.addEventListener('mouseup', () => {
+        if (isDragging) {
+            container.style.cursor = "grab"; 
+            isDragging = false; 
+        }
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return; 
+        e.preventDefault(); 
+
+        const currentX = e.pageX;
+        const dx = (currentX - startX) * 2; 
+        container.scrollLeft = scrollStartX - dx; 
+    });
+});
+</script>
