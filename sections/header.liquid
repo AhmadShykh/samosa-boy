@@ -245,25 +245,25 @@
       {% render 'header-search', input_id: 'Search-In-Modal' %}
 
 {% comment %} Commented this code because I did not want account {% endcomment %}
-      {% comment %}{%- if shop.customer_accounts_enabled -%}{% endcomment %}
-        {% comment %}<a{% endcomment %}
-          {% comment %}href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"{% endcomment %}
-          {% comment %}class="header__icon header__icon--account link focus-inset{% if section.settings.menu != blank %} small-hide{% endif %}"{% endcomment %}
-          {% comment %}rel="nofollow"{% endcomment %}
-        {% comment %}>{% endcomment %}
-          {% comment %}{%- if section.settings.enable_customer_avatar -%}{% endcomment %}
-            {% comment %}<account-icon>{% endcomment %}
-              {% comment %}{%- if customer and customer.has_avatar? -%}{% endcomment %}
-                {% comment %}{{ customer | avatar }}{% endcomment %}
-              {% comment %}{%- else -%}{% endcomment %}
-                {% comment %}<span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>{% endcomment %}
-              {% comment %}{%- endif -%}{% endcomment %}
-            {% comment %}</account-icon>{% endcomment %}
-          {% comment %}{%- else -%}{% endcomment %}
-            {% comment %}<span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>{% endcomment %}
-          {% comment %}{%- endif -%}{% endcomment %}
-          {% comment %}<span class="visually-hidden">{% endcomment %}
-      {% comment %}
+      
+{%- if shop.customer_accounts_enabled -%}
+      <a
+        href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+          class="header__icon header__icon--account link focus-inset{% if section.settings.menu != blank %} small-hide{% endif %}"
+          rel="nofollow"
+          >
+          {%- if section.settings.enable_customer_avatar -%}
+          <account-icon>
+            {%- if customer and customer.has_avatar? -%}
+              {{ customer | avatar }}
+                 {%- else -%}
+              <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
+                {%- endif -%}
+              </account-icon>
+            {%- else -%}
+          <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
+            {%- endif -%}
+          <span class="visually-hidden">
             {%- liquid
                     if customer
                       echo 'customer.account_fallback' | t
@@ -271,10 +271,9 @@
                       echo 'customer.log_in' | t
                     endif
                   -%}
-            {% endcomment %}
-          {% comment %}</span>{% endcomment %}
-        {% comment %}</a>{% endcomment %}
-      {% comment %}{%- endif -%}{% endcomment %}
+              </span>
+          </a>
+        {%- endif -%}
 
       {%- for block in section.blocks -%}
         {%- case block.type -%}

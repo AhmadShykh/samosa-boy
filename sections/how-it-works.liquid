@@ -1,10 +1,10 @@
 <section class="bg-pink-400 monsterrat">
     <h1 class="text-white text-8xl font-thin text-center franxurter " style="padding-top: 4rem;">HOW IT WORKS</h1>
     
-    <div class="carousel-container custom-htw-parent p-20">
+    <div class="carousel-container  custom-htw-parent p-20">
         <div class="carousel-track">
             {% for product in collections.all.products limit: 6 %}
-                <div class="carousel-item">
+                <div class="carousel-item mt-auto">
                     <div class="flex flex-col relative">
                         <div class="rounded-full text-4xl franxurter bg-white custom-htw-child font-thin" style="left: calc(50% - 25px); top: -25px;">{{ forloop.index }}</div>
                         {% include 'custom-product-card', img: product.featured_image, text: product.title, price: product.price %}
