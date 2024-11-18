@@ -8,23 +8,23 @@
 <header-drawer class="pl-2.5" data-breakpoint="{% if section.settings.menu_type_desktop == 'drawer' %}desktop{% else %}tablet{% endif %}">
   <details id="Details-menu-drawer-container" class="menu-drawer-container">
     <summary
-      class="header__icon header__icon--menu header__icon--summary link focus-inset"
+      class="header__icon header__icon--summary link focus-inset"
       aria-label="{{ 'sections.header.menu' | t }}"
     >
       <span class="caret-pink-700">
-        {{- 'icon-hamburger.svg' | inline_asset_content -}}
-        {{- 'icon-close.svg' | inline_asset_content -}}
+        <span class="icon-hamburger" style="display: block;">{{- 'icon-hamburger.svg' | inline_asset_content -}}</span>
+        <span class="icon-close" style="display: none; margin-top: 2.5rem;">{{- 'icon-close.svg' | inline_asset_content -}}</span>
       </span>
     </summary>
     <div id="menu-drawer" class="gradient menu-drawer motion-reduce color-{{ section.settings.menu_color_scheme }}">
       <div class="menu-drawer__inner-container">
-        <div class="menu-drawer__navigation-container">
+        <div class="menu-drawer__navigation-container bg-pink-600">
           <nav class="menu-drawer__navigation">
-            <ul class="menu-drawer__menu has-submenu list-menu" role="list">
+            <ul class="menu-drawer__menu has-submenu list-menu " role="list">
               {%- for link in section.settings.menu.links -%}
-                <li>
+                <li class="mt-10">
                   {%- if link.links != blank -%}
-                    <details id="Details-menu-drawer-menu-item-{{ forloop.index }}">
+                    <details ils id="Details-menu-drawer-menu-item-{{ forloop.index }}">
                       <summary
                         id="HeaderDrawer-{{ link.handle }}"
                         class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.child_active %} menu-drawer__menu-item--active{% endif %}"
@@ -123,7 +123,8 @@
                     <a
                       id="HeaderDrawer-{{ link.handle }}"
                       href="{{ link.url }}"
-                      class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}"
+                      style="font-size: 4rem; font-weight: bolder; text-transform: uppercase;"
+                      class="text-white monsterrat menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}"
                       {% if link.current %}
                         aria-current="page"
                       {% endif %}
@@ -139,11 +140,11 @@
             {%- if shop.customer_accounts_enabled -%}
               <a
                 href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
-                class="menu-drawer__account link focus-inset h5 medium-hide large-up-hide"
+                class="menu-drawer__account link focus-inset h5 medium-hide large-up-hide" style="color:white; font-size:2rem; text-transform:uppercase; font-weight: bolder;"
                 rel="nofollow"
               >
                 {%- if section.settings.enable_customer_avatar -%}
-                  <account-icon>
+                  <account-icon class="text-white">
                     {%- if customer and customer.has_avatar? -%}
                       {{ customer | avatar }}
                     {%- else -%}
@@ -293,3 +294,28 @@
     </div>
   </details>
 </header-drawer>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+  const detailsElement = document.getElementById('Details-menu-drawer-container');
+  const iconHamburger = document.querySelector('.icon-hamburger');
+  const iconClose = document.querySelector('.icon-close');
+
+  function toggleIcons() {
+    if (detailsElement.open) {
+      iconHamburger.style.display = 'none';
+      iconClose.style.display = 'block';
+    } else {
+      iconHamburger.style.display = 'block';
+      iconClose.style.display = 'none';
+    }
+  }
+
+  // Initial check in case the details are open by default on page load
+  toggleIcons();
+
+  // Event listener for changes in the open state
+  detailsElement.addEventListener('toggle', toggleIcons);
+});
+
+</script>
