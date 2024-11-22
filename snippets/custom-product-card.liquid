@@ -1,8 +1,7 @@
-
-<div class="custom-div-parent ">
-    <div class="custom-div-child-1  border border-black">.</div>    
-    <div class=" border border-black p-4 bg-white rounded-3xl relative">
-        <img class="custom-height w-full object-cover" src="{{ img | img_url: '450x450' }}" alt="{{ text }}">
+<div class="custom-div-parent">
+    <div class="custom-div-child-1 border border-black"></div>    
+    <div class="card-container border border-black p-4 bg-white rounded-3xl relative">
+        <img class="custom-height w-full object-cover cursor-pointer hover-image" src="{{ img | img_url: '450x450' }}" alt="{{ text }}">
         <div class="mt-2 custom-text">
             <div class="text-left text-4xl text-black font-black franxurter">{{ text }}</div>
             <div class="text-left text-sm font-semibold mt-4">{{ price | money_with_currency }}</div>
@@ -11,7 +10,6 @@
             {% include 'custom-add-cart-button', url: '/your-order-page-url', text: 'Add to cart' %}
         </div>
     </div>
-    
 </div>
 
 <style>
@@ -38,4 +36,20 @@
 .custom-text {
     height: 6rem;
 }
+
+.card-container {
+    transition: transform 0.3s ease-in-out;
+}
 </style>
+
+<script>
+document.querySelectorAll('.hover-image').forEach(function(hoverImage) {
+    const cardContainer = hoverImage.closest('.card-container');
+    hoverImage.addEventListener('mouseenter', function() {
+        cardContainer.style.transform = 'rotate(2deg) translateY(-10px)';
+    });
+    hoverImage.addEventListener('mouseleave', function() {
+        cardContainer.style.transform = '';
+    });
+});
+</script>
