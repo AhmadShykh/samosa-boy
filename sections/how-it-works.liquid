@@ -1,10 +1,10 @@
 <section class="bg-pink-400 monsterrat">
     <h1 class="text-white text-8xl font-thin text-center franxurter " style="padding-top: 4rem;">HOW IT WORKS</h1>
     
-    <div class="carousel-container  custom-htw-parent p-20">
-        <div class="carousel-track">
-            {% for product in collections.all.products limit: 6 %}
-                <div class="carousel-item mt-auto">
+    <div class="carousel-container custom-htw-parent p-20 items">
+        <div class="carousel-track how-it-works-carousel">
+            {% for product in collections.all.products limit: 3 %}
+                <div class="carousel-item">
                     <div class="flex flex-col relative">
                         <div class="rounded-full text-4xl franxurter bg-white custom-htw-child font-thin" style="left: calc(50% - 25px); top: -25px;">{{ forloop.index }}</div>
                         {% include 'custom-product-card', img: product.featured_image, text: product.title, price: product.price %}
@@ -15,6 +15,7 @@
                     </div>
                 </div>
             {% endfor %}
+        </div>
     </div>
     
     
@@ -23,6 +24,7 @@
     .custom-htw-parent{
         position: relative;
         z-index: 1;
+        justify-content: center;
     }
     .custom-htw-child{
         position: absolute;
@@ -45,6 +47,13 @@
         padding: 6rem 24rem;
         text-align: center;
     }
+    .how-it-works-carousel{
+        justify-content: center;
+        align-items: center;
+    }
+    
+
+
     @media (max-width: 640px) {
         .custom-grid-htw {
             padding: 6rem 6rem;
@@ -55,11 +64,24 @@
             padding: 6rem 6rem;
             grid-template-columns: repeat(2, 1fr);
         }
+        .how-it-works-carousel{
+            margin-left : 0 !important;
+        }
     }
+
+    @media (max-width: 950px){
+        .how-it-works-carousel{
+            flex-direction: column; 
+        }
+    }
+
     @media (min-width: 1200px) {
         .custom-grid-htw {
             padding: 6rem 14rem;
             grid-template-columns: repeat(3, 1fr);
+        }
+        .how-it-works-carousel{
+            margin-left : 0 !important;
         }
     }
     {% endstyle %}
