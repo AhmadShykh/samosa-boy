@@ -20,18 +20,18 @@
     <div class ="section-{{ section.id }}-padding">
         <div class="flex flex-col items-center">
             <div class=" w-full text-center	px-10"  >
-                <h1 data-typewriter="true" class="px-8 md:px-64 py-6 bg-red-600 text-white font-black text-4xl md:text-6xl">BUILD YOU OWN BOX</h1>
+                <h1 data-typewriter="true" class="px-8 md:px-64 py-10 bg-red-600 text-white font-black text-4xl md:text-7xl">BUILD YOUR OWN BOX</h1>
             </div>
             <p class=" font-medium mt-12 mb-12 text-lg md:text-3xl">Order before midnight for next day dispatch</p>
-            {% include 'custom-button', url: '/your-order-page-url', text: 'BUILD NOW', textSize:'6' %}
+            {% comment %} {% include 'custom-button', url: '/your-order-page-url', text: 'BUILD NOW', textSize:'6' %} {% endcomment %}
         </div>
 
         <div class="custom-grid">
             {% for product in collections.all.products limit: 4 %}
                 <div class="product-card custom-card">
                     <img class="product-image" src="{{ product.featured_image | img_url: '450x450' }}" alt="{{ product.title }}">
-                    <div class="product-info">
-                        <div class="product-title  custom-title">{{ product.title }}</div>
+                    <div class="product-info monsterrat font-extrabold">
+                        <div class="product-title  custom-title ">{{ product.title }}</div>
                     </div>
                     <div class="button-container">
                         {% include 'custom-button', url: '/your-order-page-url', text: 'BUILD NOW' , textSize:'4' %}
