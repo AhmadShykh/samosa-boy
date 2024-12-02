@@ -28,7 +28,7 @@
     {%- endif -%}
     {%- if section.blocks.size == 1 -%}
       <div
-        class="announcement-bar{% if section.settings.show_social %} announcement-bar--one-announcement{% endif %}"
+        class="announcement-bar justify-start {% if section.settings.show_social %} announcement-bar--one-announcement{% endif %}"
         role="region"
         aria-label="{{ 'sections.header.announcement' | t }}"
         {{ block.shopify_attributes }}
@@ -40,9 +40,10 @@
               class="announcement-bar__link link link--text focus-inset animate-arrow"
             >
           {%- endif -%}
-          <p class="announcement-bar__message h3 px-3">
+          <p class="announcement-bar__message py-2 text-[1.5rem]  min-h-0 h3 px-3">
             <span>{{ section.blocks.first.settings.text | escape }}</span>
-            <span>{{ section.blocks.first.settings.text | escape }}</span>
+              <span>{{ section.blocks.first.settings.text | escape }}</span>
+              <span>{{ section.blocks.first.settings.text | escape }}</span>
             {%- if section.blocks.first.settings.link != blank -%}
               {{- 'icon-arrow.svg' | inline_asset_content -}}
             {%- endif -%}

@@ -3,12 +3,43 @@ let maxBoxItems = 6; // Maximum items in the box
 let selectedNumber = null;
 let totalAmount = 0;
 
+
 let products = []; // Declare an empty array to hold product data
 
 function setProducts(productData) {
     products = productData; // Assign fetched product data to the products array
 
 }
+
+
+// Set the target date and time (adjust as needed)
+const targetDate = new Date(); // Adjust to your desired target time
+targetDate.setHours(targetDate.getHours() + 4); // Add 4 hours to the current time
+
+function updateTimer() {
+    const now = new Date();
+    const timeDifference = targetDate - now;
+
+    if (timeDifference <= 0) {
+        document.getElementById('countdown-timer').innerHTML = "Time's up!";
+        return;
+    }
+
+    const hours = Math.floor((timeDifference / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((timeDifference / (1000 * 60)) % 60);
+    const seconds = Math.floor((timeDifference / 1000) % 60);
+
+    document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+    document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+}
+
+// Update the timer every second
+setInterval(updateTimer, 1000);
+
+// Initialize the timer
+updateTimer();
+
 
 
 function randomizeProducts() {
@@ -33,6 +64,13 @@ function randomizeProducts() {
 }
 
 window.onload = function() {
+
+    const element = document.querySelector('[aria-label="Edit Selection"]');
+    element.style.display = "none";
+
+
+
+
     if(!isBoxLimitSet())
         setBoxLimit(8,false); // Set your default box limit here (e.g., 2, 6, or 8)
 };
@@ -43,8 +81,21 @@ function setBoxLimit(limit,wantLoad) {
         return;
     }
 
+    const isSmallerThanOrEqualSm = window.matchMedia("(max-width: 786px)").matches;
+    if(isSmallerThanOrEqualSm)
+        document.getElementById('box-item-list-wrapper').style.display = "none";
+
+
+    document.getElementById('bap-review').classList.add('pack-preview-closed');
+
+    if(limit >= 8)
+        document.getElementById('bap-review').classList.add('more-than-8')
+    else
+        document.getElementById('bap-review').classList.remove('more-than-8')
+
+
     maxBoxItems = limit; // Set the box limit to the chosen value
-    clearBox(); // Clear the box for a new selection
+    clearBox(wantLoad); // Clear the box for a new selection
 
     const ulObj = document.getElementById('boxItemsList');
     if(limit == 4)
@@ -86,28 +137,30 @@ function setBoxLimit(limit,wantLoad) {
     //
     //
     //
-    if(wantLoad)
-        location.reload();
+  
 }
 
 
-// Call this function on page load to set the limit if it exists in localStorage
-function setLimitOnLoad() {
+// Function to set the stored limit
+function setStoredLimit(wantLoad) {
     const storedLimit = localStorage.getItem("selectedBoxLimit");
     if (storedLimit) {
         // Convert to number and call setBoxLimit
-        setBoxLimit(Number(storedLimit));
+        setBoxLimit(Number(storedLimit), wantLoad);
     }
 }
 
-// Call setLimitOnLoad when the DOM is fully loaded
-document.addEventListener("DOMContentLoaded", setLimitOnLoad);
-
+// Call setStoredLimit when the DOM is fully loaded
+document.addEventListener("DOMContentLoaded", () => {
+    setStoredLimit(false); // Pass `false` as wantLoad
+});
 
 function addToBox(productId, productName, productImage,price) {
     let productVal = document.getElementById(`quantity-${productId}`).value;
 
+    document.getElementById('bap-review').classList.remove('pack-preview-closed');
 
+    document.getElementById('box-item-list-wrapper').style.removeProperty('display');
 
     if (selectedProducts.length >= maxBoxItems) {
         return;
@@ -131,11 +184,20 @@ function addToBox(productId, productName, productImage,price) {
         document.getElementById("box-selections-funcs").style.display = "none";
         document.getElementById("add-to-cart").style.display = "block";
 
+        const isSmallerThanOrEqualSm = window.matchMedia("(max-width: 786px)").matches;
+
+        if(isSmallerThanOrEqualSm){
+            document.getElementById('bap-review').classList.add('open');
+            const element = document.querySelector('[aria-label="Edit Selection"]');
+            element.style.removeProperty('display');
+        }
+
+
     }
 
     updateBoxUI();
 }
-function clearBox() {
+function clearBox(wantLoad) {
     selectedProducts = [];
     selectedNumber = null;
     document.getElementById("number-selection").style.display = "none";
@@ -143,6 +205,9 @@ function clearBox() {
     document.getElementById("box-selections-funcs").style.display = "block";
 
     updateBoxUI();
+
+    if(wantLoad)
+        location.reload();
 
 }
 
@@ -182,12 +247,17 @@ function updateBoxUI() {
 
 
 function removeProduct(index) {
+    // if(selectedProducts.length <= 1 )
+    //     document.getElementById('bap-review').classList.remove('pack-preview-closed');
+
+
     if(selectedProducts.length >= maxBoxItems){
         document.getElementById("number-selection").style.display = "none";
         document.getElementById("additional-info").style.display = "none";
         document.getElementById("box-selections-funcs").style.display = "block";
         document.getElementById("add-to-cart").style.display = "none";
-
+        document.getElementById('bap-review').classList.remove('open');
+        document.querySelector('[aria-label="Edit Selection"]').style.display="none";
 
     }
     selectedProducts.splice(index, 1);
@@ -221,6 +291,10 @@ function addToCart() {
     // Here you can make an AJAX request or update the cart with the selected items, number, and message.
     alert(`Adding the following to cart:\nItems: ${selectedProducts.map(p => p.name).join(", ")}\nNumber: ${selectedNumber}\nMessage: ${customMessage}`);
     clearBox();
+}
+
+function removeLast(){
+    removeProduct(selectedProducts[selectedProducts.length-1]);
 }
 
 
