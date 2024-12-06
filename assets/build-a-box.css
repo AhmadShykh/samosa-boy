@@ -33,7 +33,7 @@ body{
     text-align: center;
     font-size: 2rem;
     /* background: rgb(4,30,66); */
-    background-color: yellow;
+    background-color: rgb(254 240 138);
     color: black;
     /* color: rgb(var(--color-button-text)); */
     box-shadow: inset 0 0 0 1px rgb(4,30,66);
