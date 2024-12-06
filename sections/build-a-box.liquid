@@ -65,9 +65,7 @@
                             </svg>
                         </div>
                         <div class="bap-notice-text lg:col-span-10 pb-2">
-
-                            <p>Order within <strong>4 hours</strong> for next dispatch.
-
+                            <p>Order within <strong>4 hours</strong> for next dispatch.</p>
                         </div>
                     </div>
                 </div>
@@ -84,7 +82,7 @@
                                     src="{{ product.featured_image | img_url: '400x400', crop: 'center' }}"
                                     alt="{{ product.title }}"
                                     class="w-full h-full object-cover"
-                            >
+                            />
                             {% if product.tags contains 'vegan' %}
                                 <span class="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
                             VEGAN

@@ -88,25 +88,25 @@ function setBoxLimit(limit,wantLoad) {
 
     document.getElementById('bap-review').classList.add('pack-preview-closed');
 
-    if(limit >= 8)
-        document.getElementById('bap-review').classList.add('more-than-8')
-    else
-        document.getElementById('bap-review').classList.remove('more-than-8')
+    // if(limit >= 8)
+    //     document.getElementById('bap-review').classList.add('more-than-8')
+    // else
+    //     document.getElementById('bap-review').classList.remove('more-than-8')
 
 
     maxBoxItems = limit; // Set the box limit to the chosen value
     clearBox(wantLoad); // Clear the box for a new selection
 
     const ulObj = document.getElementById('boxItemsList');
-    if(limit == 4)
-    {
-        ulObj.classList.remove('lg:grid-cols-4');
-        ulObj.classList.add('lg:grid-cols-3');
-    }
-    else{
+    // if(limit == 4)
+    // {
+    //     ulObj.classList.remove('lg:grid-cols-4');
+    //     ulObj.classList.add('lg:grid-cols-3');
+    // }
+    // else{
         ulObj.classList.remove('lg:grid-cols-3');
         ulObj.classList.add('lg:grid-cols-4');
-    }
+    // }
 
     // Store the limit in localStorage
     localStorage.setItem("selectedBoxLimit", limit);
