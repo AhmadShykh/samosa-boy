@@ -22,7 +22,7 @@
           <nav class="menu-drawer__navigation">
             <ul class="menu-drawer__menu has-submenu list-menu " role="list">
               {%- for link in section.settings.menu.links -%}
-                <li class="mt-10">
+                <li class="">
                   {%- if link.links != blank -%}
                     <details ils id="Details-menu-drawer-menu-item-{{ forloop.index }}">
                       <summary
@@ -123,7 +123,7 @@
                     <a
                       id="HeaderDrawer-{{ link.handle }}"
                       href="{{ link.url }}"
-                      style="font-size: 4rem; font-weight: bolder; text-transform: uppercase;"
+                      style="font-size: 3rem; font-weight: bolder; text-transform: uppercase;"
                       class="text-white monsterrat menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}"
                       {% if link.current %}
                         aria-current="page"

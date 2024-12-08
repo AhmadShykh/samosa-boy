@@ -28,7 +28,7 @@
               <div class="carousel-track">
                   {% for product in collections.all.products limit: 6 %}
                   <div class="carousel-item">
-                    {% include 'custom-product-card', img: product.featured_image, text: product.title, price: product.price %}
+                    {% include 'custom-product-card', img: product.featured_image, text: product.title, price: product.price, howitworks: true %}
 
                   </div>
                   {% endfor %}

@@ -4,11 +4,14 @@
         <img class="custom-height w-full object-cover cursor-pointer hover-image" src="{{ img | img_url: '450x450' }}" alt="{{ text }}">
         <div class="mt-2 custom-text">
             <div class="text-left text-4xl text-black font-black franxurter">{{ text }}</div>
-            <div class="text-left text-sm font-semibold mt-4">{{ price | money_with_currency }}</div>
+            <div class="text-left text-2xl font-semibold montserrat ">{{ price | money_with_currency }}</div>
         </div>
-        <div class="mt-12 franxurter">
-            {% include 'custom-add-cart-button', url: '/your-order-page-url', text: 'ADD TO CART' %}
-        </div>
+        {% if howitworks %}
+            <div class="mt-12 franxurter">
+                {% include 'custom-add-cart-button', url: '/your-order-page-url', text: 'ADD TO CART' %}
+            </div>
+        {% endif %}
+
     </div>
 </div>
 
@@ -39,7 +42,33 @@
 
 .card-container {
     transition: transform 0.3s ease-in-out;
+    
 }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card-container {
+    opacity: 0; /* Initially hidden */
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.card-container.visible {
+    opacity: 1;
+    transform: translateY(0);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+
 </style>
 
 <script>
@@ -53,3 +82,23 @@ document.querySelectorAll('.hover-image').forEach(function(hoverImage) {
     });
 });
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.card-container');
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible'); // Add the visible class
+                    observer.unobserve(entry.target); // Stop observing once visible
+                }
+            });
+        },
+        { threshold: 0.1 } // Trigger when 10% of the card is visible
+    );
+
+    cards.forEach((card) => observer.observe(card));
+});
+</script>
+

@@ -30,7 +30,7 @@
             {% for product in collections.all.products limit: 4 %}
                 <div class="product-card custom-card">
                     <img class="product-image" src="{{ product.featured_image | img_url: '450x450' }}" alt="{{ product.title }}">
-                    <div class="product-info monsterrat font-extrabold">
+                    <div class="product-info monsterrat font-black text-3xl">
                         <div class="product-title  custom-title ">{{ product.title }}</div>
                     </div>
                     <div class="button-container">
@@ -83,7 +83,28 @@
     grid-template-columns: repeat(4, 1fr); 
   }
 }
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
+.custom-card {
+  opacity: 0; /* Initially hidden */
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.custom-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+  animation: fadeIn 0.5s ease-in-out;
+}
 {% endstyle %}
 
 {% schema %}
@@ -119,3 +140,25 @@
   ]
 }
 {% endschema %}
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const cards = document.querySelectorAll('.custom-card');
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible'); // Add the visible class to trigger animation
+                    observer.unobserve(entry.target); // Stop observing once the card has animated
+                }
+            });
+        },
+        { threshold: 0.1 } // Trigger when 10% of the card is visible
+    );
+
+    cards.forEach((card) => observer.observe(card));
+});
+</script>
