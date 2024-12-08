@@ -2,15 +2,12 @@
 
 
 
-<div class="py-8 bg-pink-500 items-center flex justify-center">
-    <div class="container  ">
-        <div class="items-center cols-container">
-            <div class="flex items-center space-x-6 w-4-cols lg:w-6-cols">
-
-                <img src="//www.get-baked.co.uk/cdn/shop/files/get-baked-white_large.svg?v=1715089944" alt="" class="w-[182px]">
-
-
-                <a href="https://www.instagram.com/getbakeduk" class="inline-block text-white w-[30px]">
+<div class="py-12 bg-pink-500 items-center flex justify-center">
+    <div class="container lg:px-0 md:px-0 sm:px-0 px-12">
+        <div class="flex lg:flex-row md:flex-row flex-col cols-container">
+            <div class="flex items-center space-x-6 w-4-cols  lg:w-6-cols" style="flex: 5;">
+                <h1 class="franxurter text-7xl text-white">SAMOSABOY</h1>
+                <a href="https://www.instagram.com/getbakeduk" class="inline-block  text-white w-[30px]">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="fill-current">
                         <path d="M11.999 7.377a4.623 4.623 0 1 0 0 9.248 4.623 4.623 0 0 0 0-9.248zm0 7.627a3.004 3.004 0 1 1 0-6.008 3.004 3.004 0 0 1 0 6.008z">
                         </path>
@@ -22,50 +19,48 @@
                 </a>
 
 
-                <a href="https://www.tiktok.com/@getbakeduk" class="inline-block text-white w-[30px]">
+                <a href="https://www.tiktok.com/@getbakeduk" class="inline-block  text-white w-[30px]">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="fill-current">
                         <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z">
                         </path>
                     </svg>
 
                 </a>
-
-
             </div>
-            <div class="flex flex-col xl:flex-row w-4-cols xl:w-6-cols mt-6 lg:mt-0 space-y-2 xl:space-y-0 justify-start">
-
-
-                <ul class="menu flex flex-wrap text-white f-body w-full gap-x-4">
-                    {% if section.settings.selected_menu %}
-                        {% for link in linklists[section.settings.selected_menu].links %}
-                            <li class="menu-item mr-4 inline-block">
-                                <a href="{{ link.url }}">{{ link.title }}</a>
-                            </li>
-                        {% endfor %}
-                    {% else %}
-                        <p>No menu selected.</p>
-                    {% endif %}
-
-                </ul>
-
-
-
-            </div>
-            <div>
-                {%- if section.settings.show_policy -%}
-                    <ul class="policies list-none flex flex-wrap text-white f-body w-full">
-                        {%- for policy in shop.policies -%}
-                            {%- if policy != blank -%}
-                                <li class="mr-4 inline-block">
-                                    <a href="{{ policy.url }}">{{ policy.title | escape }}</a>
+            <div style="flex:5;" class="flex lg:flex-row flex-col ">
+                <div class="flex flex-col xl:flex-row w-4-cols xl:w-6-cols mt-6 lg:mt-0 space-y-2 xl:space-y-0 justify-start" style="flex: 5;">
+                    <ul class="menu flex flex-wrap text-white futura-bold text-3xl f-body w-full gap-x-4">
+                        {% if section.settings.selected_menu %}
+                            {% for link in linklists[section.settings.selected_menu].links %}
+                                <li class="menu-item mr-4 flex items-center ">
+                                    <a href="{{ link.url }}">{{ link.title }}</a>
                                 </li>
-                            {%- endif -%}
-                        {%- endfor -%}
+                            {% endfor %}
+                        {% else %}
+                            <p>No menu selected.</p>
+                        {% endif %}
                     </ul>
-                {%- endif -%}
+                </div>
+            
+                <!-- Third div: 20% -->
+                <div style="flex: 5;" class="flex lg:flex-row flex-col " >
+                    {% if section.settings.show_policy %}
+                        <ul class="menu policies list-none flex flex-wrap futura-bold text-3xl text-white f-body w-full">
+                            {% for policy in shop.policies %}
+                                {% if policy != blank %}
+                                    <li class="menu-item mr-4 flex items-center">
+                                        <a href="{{ policy.url }}">{{ policy.title | escape }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
             </div>
-
+        
+            
         </div>
+        
 
     </div>
 </div>
