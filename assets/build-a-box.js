@@ -10,12 +10,22 @@ function setProducts(productData) {
     products = productData; // Assign fetched product data to the products array
 
 }
+// Get the current time in the user's local timezone
+const now = new Date();
 
+// Create a date object for midnight UK time (00:00) today in the user's local timezone
+const targetDate = new Date();
 
-// Set the target date and time (adjust as needed)
-const targetDate = new Date(); // Adjust to your desired target time
-targetDate.setHours(targetDate.getHours() + 4); // Add 4 hours to the current time
+// Set the target time to 12:00 AM (midnight) in the UK (GMT/BST)
+// Create a target midnight time in the UK timezone (UTC+0)
+targetDate.setUTCHours(24, 0, 0, 0); // Sets target time to midnight of the current day in UTC
 
+// Adjust the target date to the next midnight if it's already past midnight in the user's time zone
+if (now > targetDate) {
+    targetDate.setUTCDate(targetDate.getUTCDate() + 1); // Set target to the next midnight
+}
+
+// Function to update the timer
 function updateTimer() {
     const now = new Date();
     const timeDifference = targetDate - now;
@@ -59,7 +69,7 @@ function randomizeProducts() {
 
     // Add selected products to the box
     selectedProducts.forEach(product => {
-        addToBox(product.id, product.title, product.featured_image);
+        addToBox(product.id, product.title, product.featured_image,product.varId);
     });
 }
 
@@ -155,12 +165,16 @@ document.addEventListener("DOMContentLoaded", () => {
     setStoredLimit(false); // Pass `false` as wantLoad
 });
 
-function addToBox(productId, productName, productImage,price) {
+function addToBox(productId, productName, productImage,price,variantId) {
+    
+
+    
     let productVal = document.getElementById(`quantity-${productId}`).value;
 
     document.getElementById('bap-review').classList.remove('pack-preview-closed');
 
     document.getElementById('box-item-list-wrapper').style.removeProperty('display');
+
 
     if (selectedProducts.length >= maxBoxItems) {
         return;
@@ -177,7 +191,7 @@ function addToBox(productId, productName, productImage,price) {
 
 
 
-    selectedProducts.push({ id: productId, name: productName, image: productImage });
+    selectedProducts.push({ id: productId, name: productName, image: productImage,varId:variantId });
 
     if(selectedProducts.length >= maxBoxItems) {
         document.getElementById("number-selection").style.display = "block";
@@ -285,16 +299,109 @@ function selectCard(){
     document.getElementById("additional-info").style.display = "none";
     document.getElementById("number-selection").style.display = "block";
 }
-
 function addToCart() {
+    // Step 1: Create a bundle representation
+    const bundleName = "Custom Donut Bundle"; // Name of the bundle
+    const bundleProducts = selectedProducts.map(product => ({
+        name: product.name,
+        varId: product.varId,
+        quantity: product.quantity || 1,
+    }));
+    const bundleId = `bundle-${Date.now()}`; // Unique identifier for the bundle
 
-    // Here you can make an AJAX request or update the cart with the selected items, number, and message.
-    alert(`Adding the following to cart:\nItems: ${selectedProducts.map(p => p.name).join(", ")}\nNumber: ${selectedNumber}\nMessage: ${customMessage}`);
-    clearBox();
+    // Step 2: Build the bundle properties
+    const bundleProperties = {
+        bundle_name: bundleName,
+        included_products: JSON.stringify(bundleProducts), // Stringify for comparison
+    };
+
+    console.log('Bundle Properties:', bundleProperties);
+
+    // Step 3: Fetch the current cart
+    fetch('/cart.js', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Failed to fetch cart. HTTP status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(cart => {
+        console.log('Current cart:', cart);
+
+        // Step 4: Check if a matching bundle exists in the cart
+        const existingBundle = cart.items.find(item => {
+            return (
+                item.properties &&
+                item.properties.bundle_name === bundleName &&
+                item.properties.included_products === JSON.stringify(bundleProducts)
+            );
+        });
+
+        if (existingBundle) {
+            // Step 5: Update the quantity of the existing bundle
+            const updatedPayload = {
+                id: existingBundle.id,
+                quantity: existingBundle.quantity + 1, // Increment the bundle quantity
+            };
+
+            console.log('Updating bundle quantity:', updatedPayload);
+
+            return fetch('/cart/change.js', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedPayload),
+            });
+        } else {
+            // Step 6: Add a new bundle to the cart
+            const payload = {
+                items: [
+                    {
+                        id: 49464110285080, // Use the variant ID of one product to represent the bundle
+                        quantity: 1, // Treat the entire bundle as a single cart item
+                        properties: {
+                            ...bundleProperties,
+                            bundle_id: bundleId, // Unique identifier for this bundle
+                        },
+                    },
+                ],
+            };
+
+            console.log('Adding new bundle:', payload);
+
+            return fetch('/cart/add.js', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            });
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Failed to update cart. HTTP status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Cart updated:', data);
+        alert(`Bundle "${bundleName}" has been updated in the cart.`);
+    })
+    .catch(error => {
+        console.error('Error managing cart:', error);
+    });
 }
 
+
 function removeLast(){
-    removeProduct(selectedProducts[selectedProducts.length-1]);
+    decreaseQuantity(selectedProducts[selectedProducts.length-1].id);
 }
 
 
