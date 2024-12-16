@@ -25,22 +25,24 @@
             <p class=" font-medium mt-12 mb-12 text-lg md:text-3xl">Order before midnight for next day dispatch</p>
             {% comment %} {% include 'custom-button', url: '/your-order-page-url', text: 'BUILD NOW', textSize:'6' %} {% endcomment %}
         </div>
-
-        <div class="custom-grid">
-            {% for product in collections.all.products limit: 4 %}
-                <div class="product-card custom-card">
-                    <img class="product-image" src="{{ product.featured_image | img_url: '450x450' }}" alt="{{ product.title }}">
-                    <div class="product-info monsterrat font-black text-3xl">
-                        <div class="product-title  custom-title ">{{ product.title }}</div>
-                    </div>
-                    <div class="button-container">
-                        {% include 'custom-button', url: '/your-order-page-url', text: 'BUILD NOW' , textSize:'4' %}
-                    </div>
+        <div class="carousel-container">
+          <div class="carousel-track">
+              {% for product in collections.all.products limit: 6 %}
+                <div class="carousel-item">
+                  <div class="product-card custom-card">
+                      <img class="product-image" src="{{ product.featured_image | img_url: '450x450' }}" alt="{{ product.title }}">
+                      <div class="product-info monsterrat font-black text-3xl">
+                          <div class="product-title  custom-title ">{{ product.title }}</div>
+                      </div>
+                      <div class="button-container">
+                          {% include 'custom-button', url: '/your-order-page-url', text: 'BUILD NOW' , textSize:'4' %}
+                      </div>
+                  </div>
                 </div>
 
             {% endfor %}
+          </div>
         </div>
-
     </div>
 
 </div>
