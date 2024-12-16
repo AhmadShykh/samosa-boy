@@ -10,12 +10,22 @@ function setProducts(productData) {
     products = productData; // Assign fetched product data to the products array
 
 }
+// Get the current time in the user's local timezone
+const now = new Date();
 
+// Create a date object for midnight UK time (00:00) today in the user's local timezone
+const targetDate = new Date();
 
-// Set the target date and time (adjust as needed)
-const targetDate = new Date(); // Adjust to your desired target time
-targetDate.setHours(targetDate.getHours() + 4); // Add 4 hours to the current time
+// Set the target time to 12:00 AM (midnight) in the UK (GMT/BST)
+// Create a target midnight time in the UK timezone (UTC+0)
+targetDate.setUTCHours(24, 0, 0, 0); // Sets target time to midnight of the current day in UTC
 
+// Adjust the target date to the next midnight if it's already past midnight in the user's time zone
+if (now > targetDate) {
+    targetDate.setUTCDate(targetDate.getUTCDate() + 1); // Set target to the next midnight
+}
+
+// Function to update the timer
 function updateTimer() {
     const now = new Date();
     const timeDifference = targetDate - now;
@@ -59,7 +69,7 @@ function randomizeProducts() {
 
     // Add selected products to the box
     selectedProducts.forEach(product => {
-        addToBox(product.id, product.title, product.featured_image);
+        addToBox(product.id, product.title, product.featured_image,product.varId,product.handle);
     });
 }
 
@@ -155,18 +165,22 @@ document.addEventListener("DOMContentLoaded", () => {
     setStoredLimit(false); // Pass `false` as wantLoad
 });
 
-function addToBox(productId, productName, productImage,price) {
+function addToBox(productId, productName, productImage,price,variantId,prodHandle) {
+        
     let productVal = document.getElementById(`quantity-${productId}`).value;
 
     document.getElementById('bap-review').classList.remove('pack-preview-closed');
 
     document.getElementById('box-item-list-wrapper').style.removeProperty('display');
 
+
     if (selectedProducts.length >= maxBoxItems) {
         return;
     }
 
-    totalAmount += price;
+    totalAmount += (price/100);
+    // console.log("Total Amount: " , totalAmount);
+    // console.log("Price: " , price);
     document.getElementById('bap-pack-price-preview').innerHTML = `$${totalAmount}`;
 
     if(productVal < 1){
@@ -177,7 +191,7 @@ function addToBox(productId, productName, productImage,price) {
 
 
 
-    selectedProducts.push({ id: productId, name: productName, image: productImage });
+    selectedProducts.push({ id: productId, name: productName, image: productImage,varId:variantId,handle:prodHandle });
 
     if(selectedProducts.length >= maxBoxItems) {
         document.getElementById("number-selection").style.display = "block";
@@ -285,16 +299,201 @@ function selectCard(){
     document.getElementById("additional-info").style.display = "none";
     document.getElementById("number-selection").style.display = "block";
 }
-
 function addToCart() {
+    // Step 1: Create a bundle representation
+    const bundleName = "Custom Donut Bundle"; // Name of the bundle
+    const bundleProducts = selectedProducts.map(product => ({
+        name: product.name,
+        varId: product.varId,
+        quantity: product.quantity || 1,
+    }));
+    const bundleId = `bundle-${Date.now()}`; // Unique identifier for the bundle
 
-    // Here you can make an AJAX request or update the cart with the selected items, number, and message.
-    alert(`Adding the following to cart:\nItems: ${selectedProducts.map(p => p.name).join(", ")}\nNumber: ${selectedNumber}\nMessage: ${customMessage}`);
-    clearBox();
+    // Step 2: Build the bundle properties
+    const bundleProperties = {
+        bundle_name: bundleName,
+        included_products: JSON.stringify(bundleProducts), // Stringify for comparison
+    };
+
+
+    // Step 3: Make products unique and sum their quantities
+    const uniqueProducts = selectedProducts.reduce((acc, product) => {
+        const existingProduct = acc.find(p => p.varId === product.varId);
+
+        if (existingProduct) {
+            // Add quantities for duplicate products
+            existingProduct.quantity += product.quantity || 1;
+        } else {
+            // Add a new product to the unique array
+            acc.push({
+                name: product.name,
+                handle: product.handle,
+                varId: product.varId,
+                quantity: product.quantity || 1,
+            });
+        }
+
+        return acc;
+    }, []);
+
+
+    // Step 4: Validate stock for unique products and calculate total cost
+    const stockCheckPromises = uniqueProducts.map(product => {
+        const productHandle = product.handle; // Assuming `handle` is included in `selectedProducts`
+
+        return fetch(`${window.Shopify.routes.root}products/${productHandle}.js`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch product data for ${product.name}`);
+                }
+                return response.json();
+            })
+            .then(productData => {
+                // Find the variant
+                const variant = productData.variants.find(variant => variant.id === product.varId);
+                if (!variant) {
+                    throw new Error(`Variant not found for ${product.name}`);
+                }
+
+                // Validate inventory
+                if (variant.inventory_quantity < product.quantity) {
+                    throw new Error(
+                        `Insufficient stock for ${product.name}. Available: ${variant.inventory_quantity}, Required: ${product.quantity}`
+                    );
+                }
+
+                // Add the price of the product to the total cost
+                return {
+                    name: product.name,
+                    varId: product.varId,
+                    requestedQuantity: product.quantity,
+                    availableQuantity: variant.inventory_quantity,
+                    price: variant.price, 
+                    isAvailable: true,
+                };
+            })
+            .catch(error => {
+                return {
+                    isAvailable: false,
+                };
+            });
+    });
+
+    Promise.all(stockCheckPromises)
+        .then(stockData => {
+            // Check if any product is unavailable
+            const unavailableProducts = stockData.filter(product => !product.isAvailable);
+
+            if (unavailableProducts.length > 0) {
+                // Display an alert for unavailable products
+                const unavailableNames = unavailableProducts
+                    .map(product => `${product.name} (Requested: ${product.requestedQuantity}, Available: ${product.availableQuantity})`)
+                    .join('\n');
+                alert(`The following products are not available in the required quantities:\n${unavailableNames}`);
+                return; // Stop further execution
+            }
+
+            // Calculate the total cost of the bundle
+            const totalCost = stockData.reduce((sum, product) => {
+                if (product.isAvailable) {
+                    return sum + (product.price/100 * product.requestedQuantity); // Multiply by quantity
+                }
+                return sum;
+            }, 0);
+
+            // Add the total cost to the bundle properties
+            bundleProperties.total_cost = totalCost;
+            
+
+
+            // Step 4: Fetch the current cart
+            return fetch('/cart.js', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Failed to fetch cart. HTTP status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(cart => {
+
+            // Step 5: Check if a matching bundle exists in the cart
+            const existingBundle = cart.items.find(item => {
+                return (
+                    item.properties &&
+                    item.properties.bundle_name === bundleName &&
+                    item.properties.included_products === JSON.stringify(bundleProducts)
+                );
+            });
+
+            if (existingBundle) {
+                // Step 6: Update the quantity of the existing bundle using the line property
+                const lineIndex = cart.items.findIndex(item => item === existingBundle) + 1; // Get the line (1-based index)
+            
+                const updatedPayload = {
+                    line: lineIndex, // Use the line number for the update
+                    quantity: existingBundle.quantity + 1, // Increment the bundle quantity
+                };
+            
+            
+                return fetch('/cart/change.js', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(updatedPayload),
+                });
+            } else {
+                // Step 7: Add a new bundle to the cart
+                const payload = {
+                    items: [
+                        {
+                            id: selectedProducts[0].varId, // Use the variant ID of one product to represent the bundle
+                            quantity: 1, // Treat the entire bundle as a single cart item
+                            properties: {
+                                ...bundleProperties,
+                                bundle_id: bundleId, // Unique identifier for this bundle
+                            },
+                        },
+                    ],
+                };
+
+                console.log('Adding new bundle:', payload);
+
+                return fetch('/cart/add.js', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload),
+                });
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Failed to update cart. HTTP status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Cart updated:', data);
+            alert(`Bundle "${bundleName}" has been updated in the cart with a total cost of $${bundleProperties.total_cost}.`);
+        })
+        .catch(error => {
+            console.error('Error managing cart:', error);
+        });
 }
 
+
+
+
 function removeLast(){
-    removeProduct(selectedProducts[selectedProducts.length-1]);
+    decreaseQuantity(selectedProducts[selectedProducts.length-1].id);
 }
 
 
