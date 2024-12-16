@@ -41,9 +41,14 @@
             >
           {%- endif -%}
           <p class="announcement-bar__message py-2 text-[1.5rem]  min-h-0 h3 px-3">
-            <span>{{ section.blocks.first.settings.text | escape }}</span>
-              <span>{{ section.blocks.first.settings.text | escape }}</span>
-              <span>{{ section.blocks.first.settings.text | escape }}</span>
+            <span class="pl-6">{{ section.blocks.first.settings.text | escape }}</span> 
+              <span class="pl-6">{{ section.blocks.first.settings.text | escape }}</span> 
+              <span class="pl-6">{{ section.blocks.first.settings.text | escape }}</span> 
+              <span class="pl-6">{{ section.blocks.first.settings.text | escape }}</span> 
+              <span class="pl-6">{{ section.blocks.first.settings.text | escape }}</span> 
+              <span class="pl-6">{{ section.blocks.first.settings.text | escape }}</span> 
+              <span class="pl-6">{{ section.blocks.first.settings.text | escape }}</span> 
+              <span class="pl-6">{{ section.blocks.first.settings.text | escape }}</span> 
             {%- if section.blocks.first.settings.link != blank -%}
               {{- 'icon-arrow.svg' | inline_asset_content -}}
             {%- endif -%}
