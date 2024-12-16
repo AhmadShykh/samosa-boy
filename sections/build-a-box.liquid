@@ -66,6 +66,12 @@
                 alt="{{ product.title }}"
                 class="w-full h-full object-cover"
               >
+
+                <script>
+                  console.log({{product|json}});
+                  </script>
+
+
               {% if product.tags contains 'vegan' %}
                 <span class="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
                   VEGAN
@@ -84,8 +90,9 @@
                     <button
                       id="add-btn-{{ product.id }}"
                       class="lg:mt-0 w-full text-white rounded-3xl "
-                      onclick="addToBox('{{ product.id }}', '{{ product.title }}','{{ product.featured_image  | img_url: '400x400'}}',{{ product.price }},{{ product.variants.first.id }})"
+                      onclick="addToBox('{{ product.id }}', '{{ product.title }}','{{ product.featured_image  | img_url: '400x400'}}',{{ product.price }},{{ product.variants.first.id }},'{{ product.handle }}')"
                     >
+
                       <span
                         class="franxurter w-full push-btn-surface p-4"
                         style="background-color: rgb(235, 235, 46); color:black;"
@@ -127,7 +134,7 @@
                         id="bap-doughnut_pJMp3a-add"
                         class="bap-add-doughnut"
                         aria-label="+"
-                        onclick="increaseQuantity({{ product.id }});addToBox('{{ product.id }}', '{{ product.title }}','{{ product.featured_image  | img_url: '400x400'}}',{{ product.price }},{{ product.variants.first.id }})"
+                        onclick="increaseQuantity({{ product.id }});addToBox('{{ product.id }}', '{{ product.title }}','{{ product.featured_image  | img_url: '400x400'}}',{{ product.price }},{{ product.variants.first.id }},'{{ product.handle }}')"
                       >
                         <div class="push-btn-surface align-bottom p-2">
                           <div class="w-5 h-5 m-auto">
@@ -533,7 +540,7 @@
                   class="mt-4"
                   style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out;"
                 >
-                  {{ section.settings.allergen_information_content }}
+                  {{ section.settings.allegen_information_content }}
 
                 </div>
               </div>
