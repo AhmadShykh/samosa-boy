@@ -1,7 +1,7 @@
 <div class="custom-div-parent">
     <div class="custom-div-child-1 border border-black"></div>    
     <div class="card-container border border-black p-4 bg-white rounded-3xl relative">
-        <img class="custom-height w-full object-cover cursor-pointer hover-image" src="{{ img | img_url: '450x450' }}" alt="{{ text }}">
+        <img class="custom-height w-full object-cover" src="{{ img | img_url: '450x450' }}" alt="{{ text }}">
         <div class="mt-2 custom-text">
             <div class="text-left text-4xl text-black font-black franxurter">{{ text }}</div>
             <div class="text-left text-2xl font-light montserrat ">{{ price | money_with_currency }}</div>
@@ -11,7 +11,6 @@
                 {% include 'custom-add-cart-button', url: '/your-order-page-url', text: 'ADD TO CART' %}
             </div>
         {% endif %}
-
     </div>
 </div>
 
@@ -41,52 +40,43 @@
 }
 
 .card-container {
-    transition: transform 0.3s ease-in-out;
-}
-
-@keyframes flyIn {
-    from {
-        opacity: 0;
-        transform: translateX(50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-.card-container {
     opacity: 0; /* Initially hidden */
-    transform: translateX(50px); /* Start off-screen to the right */
+    transform: translateX(100px) rotate(15deg); /* Start off-screen and rotated */
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    animation: none; /* Animation only triggered by IntersectionObserver */
 }
 
 .card-container.visible {
+    animation: flyIn 0.8s ease-in-out forwards; /* Trigger animation on visibility */
     opacity: 1;
-    transform: translateX(0);
-    animation: flyIn 0.5s ease-in-out;
+}
+
+/* Fly-in animation */
+@keyframes flyIn {
+    0% {
+        opacity: 0;
+        transform: translateX(100px) rotate(15deg); /* Start off-screen and rotated */
+    }
+    70% {
+        opacity: 1;
+        transform: translateX(0px) rotate(5deg); /* Reduce rotation */
+    }
+    100% {
+        transform: translateX(0) rotate(0deg); /* Settle to straight */
+    }
 }
 </style>
-<script>
-document.querySelectorAll('.hover-image').forEach(function(hoverImage) {
-    const cardContainer = hoverImage.closest('.card-container');
-    hoverImage.addEventListener('mouseenter', function() {
-        cardContainer.style.transform = 'rotate(2deg) translateY(-10px)';
-    });
-    hoverImage.addEventListener('mouseleave', function() {
-        cardContainer.style.transform = '';
-    });
-});
 
-document.addEventListener('DOMContentLoaded', function() {
+<script>
+document.addEventListener('DOMContentLoaded', function () {
     const cards = document.querySelectorAll('.card-container');
 
     const observer = new IntersectionObserver(
         (entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('visible'); // Add the visible class
-                    observer.unobserve(entry.target); // Stop observing once visible
+                    entry.target.classList.add('visible'); // Trigger fly-in animation
+                    observer.unobserve(entry.target); // Stop observing once animation is triggered
                 }
             });
         },

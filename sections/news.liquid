@@ -21,18 +21,21 @@
             <img class="w-2/3 ml-24 mt-20" src="{{ 'header.jpg' | asset_url }}" alt="news">
         </div>
         <div class="md:w-1/2 p-16 mt-8">
-            <h1 class="font-extrabold news-text ">NEWS STRAIGHT FROM THE OVEN</h1>
+            <h1 class="font-extrabold news-text "  id="editable-text-signup" 
+            contenteditable="true" 
+            style="padding-top: 4rem; outline: none;">NEWS STRAIGHT FROM THE OVEN</h1>
             <p class="text-4xl font-medium">Sign up to our mailing list and get all the news and updates.</p>
            <div class="flex flex-col">
                 <div class="flex flex-row gap-4 mb-4 mt-24">
-                    <input class="w-1/2 bg-pink-500 placeholder-black border border-black rounded-3xl p-4" type="text" placeholder="Enter text here">
-                    <input class="w-1/2 bg-pink-500 placeholder-black border border-black rounded-3xl p-4" type="text" placeholder="Enter text here">
+                    <input class="w-1/2 bg-pink-500 placeholder-black border border-black rounded-3xl p-4" type="text" placeholder="Enter name here">
+                    <input class="w-1/2 bg-pink-500 placeholder-black border border-black rounded-3xl p-4" type="text" placeholder="Enter email here">
                 </div>
-                <input class="w-full bg-pink-500 placeholder-black border border-black rounded-3xl p-4 my-4" type="text" placeholder="Enter text here">
-
-                <a href="#" class="custom-button font-black rounded-3xl bg-yellow-100 border border-black text-black px-4 py-4 hover:bg-yellow-500 mt-8">SIGN UP</a>
+                <input class="w-full bg-pink-500 placeholder-black border border-black rounded-3xl p-4 my-4" type="text" placeholder="Enter password here">
+              
 
            </div>
+           {% include 'custom-button', url: '/your-order-page-url', text: 'SIGN UP' , textSize:'4' %}
+                  
         </div>
     </div>
 </div>
@@ -43,8 +46,34 @@
     .custom-button{
         text-align: center;
     }
+    .editable-text-signup {
+      outline: none; /* Removes the focus outline */
+      caret-color: white; /* Keeps the caret color consistent */
+    }
+
 {%endstyle%}
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const editableText = document.getElementById('editable-text-signup');
+
+    // Add a placeholder if the user clears the content
+    editableText.addEventListener('input', function () {
+        if (!editableText.textContent.trim()) {
+            editableText.innerHTML = ""; // Clear any extra spaces
+        }
+    });
+
+    // Prevent the element from disappearing on delete
+    editableText.addEventListener('blur', function () {
+        if (!editableText.textContent.trim()) {
+            editableText.textContent = "NEWS STRAIGHT FROM THE OVEN"; // Restore default text
+        }
+    });
+});
+
+
+</script>
 {% schema %}
 {
   "name": "News",

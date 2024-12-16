@@ -1,6 +1,9 @@
 <section class="bg-pink-400 monsterrat">
-    <h1 class="text-white text-8xl font-thin text-center franxurter " style="padding-top: 4rem;">HOW IT WORKS</h1>
-    
+    <h1 class="text-white text-8xl font-thin text-center franxurter editable-text" 
+        id="editable-text" 
+        contenteditable="true" 
+        style="padding-top: 4rem; outline: none;">HOW IT WORKS</h1>
+
     <div class="carousel-container custom-htw-parent p-20 items">
         <div class="carousel-track how-it-works-carousel">
             {% for product in collections.all.products limit: 3 %}
@@ -17,9 +20,8 @@
             {% endfor %}
         </div>
     </div>
-    
-    
 </section>
+
 {% style %}
     .custom-htw-parent{
         position: relative;
@@ -85,8 +87,74 @@
             margin-left : 0 !important;
         }
     }
-    {% endstyle %}
-    
+
+    @keyframes typing {
+        from {
+            width: 0;
+        }
+        to {
+            width: 100%;
+        }
+    }
+
+    @keyframes blink-caret {
+        from {
+            border-color: transparent;
+        }
+        to {
+            border-color: white;
+        }
+    }
+    .editable-text {
+        outline: none; /* Removes the focus outline */
+        caret-color: white; /* Keeps the caret color consistent */
+    }
+
+
+    .typewriter {
+        overflow: hidden; /* Hide overflowing text */
+        white-space: nowrap; /* Keep the text on one line */
+        border-right: 2px solid white; /* Simulate the caret */
+        animation: blink-caret 0.75s step-end infinite;
+        font-size: inherit;
+    }
+    /* Ensure no unwanted background is applied during editing */
+    .editable-text:focus {
+        background-color: transparent; /* Fixes white background issue */
+        outline: none; /* Removes focus outline */
+    }
+
+    /* Placeholder style for an empty editable element */
+    .editable-text:empty:before {
+        content: "HOW IT WORKS"; /* Placeholder text */
+        color: rgba(255, 255, 255, 0.5); /* Light placeholder color */
+        pointer-events: none; /* Prevents selecting the placeholder */
+    }
+
+
+{% endstyle %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const editableText = document.getElementById('editable-text');
+
+    // Add a placeholder if the user clears the content
+    editableText.addEventListener('input', function () {
+        if (!editableText.textContent.trim()) {
+            editableText.innerHTML = ""; // Clear any extra spaces
+        }
+    });
+
+    // Prevent the element from disappearing on delete
+    editableText.addEventListener('blur', function () {
+        if (!editableText.textContent.trim()) {
+            editableText.textContent = "HOW IT WORKS"; // Restore default text
+        }
+    });
+});
+
+
+</script>
 
 {% schema %}
     {
