@@ -1,191 +1,227 @@
 <section class="bg-pink-400 monsterrat">
-    <h1 class="text-white text-8xl font-thin text-center franxurter editable-text" 
-        id="editable-text" 
-        contenteditable="true" 
-        style="padding-top: 4rem; outline: none;">HOW IT WORKS</h1>
+  <h1
+    class="text-white text-8xl font-thin text-center franxurter editable-text"
+    id="editable-text"
+    contenteditable="true"
+    style="padding-top: 4rem; outline: none;"
+  >
+    HOW IT WORKS
+  </h1>
 
-    <div class="carousel-container custom-htw-parent p-20 items">
-        <div class="carousel-track how-it-works-carousel">
-            {% for product in collections.all.products limit: 3 %}
-                <div class="carousel-item">
-                    <div class="flex flex-col relative">
-                        <div class="rounded-full text-8xl franxurter bg-white custom-htw-child font-thin" style="left: calc(50% - 30px); top: -25px;">{{ forloop.index }}</div>
-                        {% include 'custom-product-card', img: product.featured_image, text: product.title, price: product.price, howitworks: false %}
-                        <div class="flex flex-col text-white mt-12">
-                            <h1 class="text-7xl franxurter font-thin text-white text-center">FILL</h1>
-                            <p class="text-center">Choose from our range of flavours</p>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+  <div class="carousel-container custom-htw-parent p-20 items">
+    <div class="carousel-track how-it-works-carousel">
+      {% for product in collections.all.products limit: 3 %}
+        <div class="carousel-item">
+          <div class="flex flex-col relative">
+            <div
+              class="rounded-full text-8xl franxurter bg-white custom-htw-child font-thin"
+              style="left: calc(50% - 30px); top: -25px;"
+            >
+              {{ forloop.index }}
+            </div>
+            {% include 'custom-product-card',
+              img: product.featured_image,
+              text: product.title,
+              price: product.price,
+              howitworks: false
+            %}
+            <div class="flex flex-col text-white mt-12">
+              <h1 class="text-7xl franxurter font-thin text-white text-center">
+                {% case forloop.index %}
+                  {% when 1 %}
+                    {{ section.settings.custom_text_1 }}
+                  {% when 2 %}
+                    {{ section.settings.custom_text_2 }}
+                  {% when 3 %}
+                    {{ section.settings.custom_text_3 }}
+                  {% else %}
+                    FILL
+                {% endcase %}
+              </h1>
+              <p class="text-center">Choose from our range of flavours</p>
+            </div>
+          </div>
         </div>
+      {% endfor %}
     </div>
+  </div>
 </section>
 
 {% style %}
-    .custom-htw-parent{
-        position: relative;
-        z-index: 1;
-        justify-content: center;
-    }
-    .custom-htw-child{
-        position: absolute;
-        width: 50px;
-        height: 50px;
-        z-index: 2;
-        border-radius: 40px;
-        /* font-weight: bold; */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: rgb(196, 60, 114);
-        font-weight: 400;
-        padding: 30px;
-        /* font-size: 3.5rem; */
-    }
+  .custom-htw-parent {
+    position: relative;
+    z-index: 1;
+    justify-content: center;
+  }
+  .custom-htw-child {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    z-index: 2;
+    border-radius: 40px;
+    /* font-weight: bold; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(196, 60, 114);
+    font-weight: 400;
+    padding: 30px;
+    /* font-size: 3.5rem; */
+  }
+  .custom-grid-htw {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 40px;
+    padding: 6rem 24rem;
+    text-align: center;
+  }
+  .how-it-works-carousel {
+    justify-content: center;
+    align-items: center;
+  }
+
+  @media (max-width: 640px) {
     .custom-grid-htw {
-        display: grid;
-        grid-template-columns: repeat(1, 1fr);
-        gap: 40px;
-        padding: 6rem 24rem;
-        text-align: center;
+      padding: 6rem 6rem;
     }
-    .how-it-works-carousel{
-        justify-content: center;
-        align-items: center;
+  }
+  @media (min-width: 640px) {
+    .custom-grid-htw {
+      padding: 6rem 6rem;
+      grid-template-columns: repeat(2, 1fr);
     }
-    
+    .how-it-works-carousel {
+      margin-left: 0 !important;
+    }
+  }
 
-
-    @media (max-width: 640px) {
-        .custom-grid-htw {
-            padding: 6rem 6rem;
-        }
+  @media (max-width: 950px) {
+    .how-it-works-carousel {
+      flex-direction: column;
     }
-    @media (min-width: 640px) {
-        .custom-grid-htw {
-            padding: 6rem 6rem;
-            grid-template-columns: repeat(2, 1fr);
-        }
-        .how-it-works-carousel{
-            margin-left : 0 !important;
-        }
-    }
+  }
 
-    @media (max-width: 950px){
-        .how-it-works-carousel{
-            flex-direction: column; 
-        }
+  @media (min-width: 1200px) {
+    .custom-grid-htw {
+      padding: 6rem 14rem;
+      grid-template-columns: repeat(3, 1fr);
     }
-
-    @media (min-width: 1200px) {
-        .custom-grid-htw {
-            padding: 6rem 14rem;
-            grid-template-columns: repeat(3, 1fr);
-        }
-        .how-it-works-carousel{
-            margin-left : 0 !important;
-        }
+    .how-it-works-carousel {
+      margin-left: 0 !important;
     }
+  }
 
-    @keyframes typing {
-        from {
-            width: 0;
-        }
-        to {
-            width: 100%;
-        }
+  @keyframes typing {
+    from {
+      width: 0;
     }
-
-    @keyframes blink-caret {
-        from {
-            border-color: transparent;
-        }
-        to {
-            border-color: white;
-        }
+    to {
+      width: 100%;
     }
-    .editable-text {
-        outline: none; /* Removes the focus outline */
-        caret-color: white; /* Keeps the caret color consistent */
+  }
+
+  @keyframes blink-caret {
+    from {
+      border-color: transparent;
     }
-
-
-    .typewriter {
-        overflow: hidden; /* Hide overflowing text */
-        white-space: nowrap; /* Keep the text on one line */
-        border-right: 2px solid white; /* Simulate the caret */
-        animation: blink-caret 0.75s step-end infinite;
-        font-size: inherit;
+    to {
+      border-color: white;
     }
-    /* Ensure no unwanted background is applied during editing */
-    .editable-text:focus {
-        background-color: transparent; /* Fixes white background issue */
-        outline: none; /* Removes focus outline */
-    }
+  }
+  .editable-text {
+    outline: none; /* Removes the focus outline */
+    caret-color: white; /* Keeps the caret color consistent */
+  }
 
-    /* Placeholder style for an empty editable element */
-    .editable-text:empty:before {
-        content: "HOW IT WORKS"; /* Placeholder text */
-        color: rgba(255, 255, 255, 0.5); /* Light placeholder color */
-        pointer-events: none; /* Prevents selecting the placeholder */
-    }
+  .typewriter {
+    overflow: hidden; /* Hide overflowing text */
+    white-space: nowrap; /* Keep the text on one line */
+    border-right: 2px solid white; /* Simulate the caret */
+    animation: blink-caret 0.75s step-end infinite;
+    font-size: inherit;
+  }
+  /* Ensure no unwanted background is applied during editing */
+  .editable-text:focus {
+    background-color: transparent; /* Fixes white background issue */
+    outline: none; /* Removes focus outline */
+  }
 
-
+  /* Placeholder style for an empty editable element */
+  .editable-text:empty:before {
+    content: 'HOW IT WORKS'; /* Placeholder text */
+    color: rgba(255, 255, 255, 0.5); /* Light placeholder color */
+    pointer-events: none; /* Prevents selecting the placeholder */
+  }
 {% endstyle %}
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', function () {
     const editableText = document.getElementById('editable-text');
 
     // Add a placeholder if the user clears the content
     editableText.addEventListener('input', function () {
-        if (!editableText.textContent.trim()) {
-            editableText.innerHTML = ""; // Clear any extra spaces
-        }
+      if (!editableText.textContent.trim()) {
+        editableText.innerHTML = ''; // Clear any extra spaces
+      }
     });
 
     // Prevent the element from disappearing on delete
     editableText.addEventListener('blur', function () {
-        if (!editableText.textContent.trim()) {
-            editableText.textContent = "HOW IT WORKS"; // Restore default text
-        }
+      if (!editableText.textContent.trim()) {
+        editableText.textContent = 'HOW IT WORKS'; // Restore default text
+      }
     });
-});
-
-
+  });
 </script>
 
 {% schema %}
+{
+  "name": "how it works",
+  "tag": "section",
+  "settings": [
     {
-      "name": "how it works",
-      "tag": "section",
-      "settings": [
-        {
-          "type": "range",
-          "id": "padding_top",
-          "min": 0,
-          "max": 100,
-          "step": 4,
-          "unit": "px",
-          "label": "t:sections.all.padding.padding_top",
-          "default": 36
-        },
-        {
-          "type": "range",
-          "id": "padding_bottom",
-          "min": 0,
-          "max": 100,
-          "step": 4,
-          "unit": "px",
-          "label": "t:sections.all.padding.padding_bottom",
-          "default": 36
-        }
-      ],
-      "presets": [
-        {
-          "name": "how it works"
-        }
-      ]
+      "type": "text",
+      "id": "custom_text_1",
+      "label": "Step 1 Heading",
+      "default": "FILL"
+    },
+    {
+      "type": "text",
+      "id": "custom_text_2",
+      "label": "Step 2 Heading",
+      "default": "CHOOSE"
+    },
+    {
+      "type": "text",
+      "id": "custom_text_3",
+      "label": "Step 3 Heading",
+      "default": "ENJOY"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
     }
-    {% endschema %}
+  ],
+  "presets": [
+    {
+      "name": "how it works"
+    }
+  ]
+}
+{% endschema %}

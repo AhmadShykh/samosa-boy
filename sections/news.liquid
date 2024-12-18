@@ -22,8 +22,8 @@
         </div>
         <div class="md:w-1/2 p-16 mt-8">
             <h1 class="font-extrabold news-text "  id="editable-text-signup" 
-            contenteditable="true" 
-            style="padding-top: 4rem; outline: none;">NEWS STRAIGHT FROM THE OVEN</h1>
+             
+            style="padding-top: 4rem; outline: none;">{{ section.settings.news_text }}</h1>
             <p class="text-4xl font-medium">Sign up to our mailing list and get all the news and updates.</p>
            <div class="flex flex-col">
                 <div class="flex flex-row gap-4 mb-4 mt-24">
@@ -98,7 +98,13 @@ document.addEventListener('DOMContentLoaded', function () {
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 36
-    }
+    },
+    {
+        "type": "text",
+        "id": "news_text",
+        "label": "News Text",
+        "default": "NEWS STRAIGHT FROM THE OVEN"
+      }
   ],
   "presets": [
     {
