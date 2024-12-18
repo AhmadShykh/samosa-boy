@@ -1,7 +1,7 @@
 <div class="custom-div-parent">
     <div class="custom-div-child-1 border border-black"></div>    
     <div class="card-container border border-black p-4 bg-white rounded-3xl relative">
-        <img class="custom-height w-full object-cover" src="{{ img | img_url: '450x450' }}" alt="{{ text }}">
+        <img class=" object-cover" style="aspect-ratio:0.8" src="{{ img | img_url: '450x450' }}" alt="{{ text }}">
         <div class="mt-2 custom-text">
             <div class="text-left text-4xl text-black font-black franxurter">{{ text }}</div>
             <div class="text-left text-2xl font-light montserrat ">{{ price | money_with_currency }}</div>
