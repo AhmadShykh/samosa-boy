@@ -1,0 +1,53 @@
+<div class="shopify-section">
+    <style data-shopify="">
+
+      .h-table-cloth {
+          height: 106px;
+          background-image: url({{ 'heading-below-banner.svg' | asset_url }});
+          {% comment %} transform: scale(1.01); {% endcomment %}
+          pointer-events: none;
+      }
+    </style>
+  
+    <section  style="padding-top: {{ section.settings.top_padding | default: '20' }}rem;">
+      <div class="text-center">
+        {% if section.settings.show_top_text %}
+          <h1 class="monsterrat text-7xl font-black">{{ section.settings.top_text | default: 'FAQs' }}</h1>
+        {% endif %}
+  
+        <div class="h-table-cloth breakout mt-8 -z-10" style="display:block"></div>
+      </div>
+    </section>
+  </div>
+  
+  {% schema %}
+  {
+    "name": "Page Heading",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_top_text",
+        "label": "Display Top Text",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "top_text",
+        "label": "Top Text",
+        "default": "FAQs"
+      },
+      {
+        "type": "number",
+        "id": "top_padding",
+        "label": "Top Padding (in REM)",
+        "default": 20,
+      }
+    ],
+    "presets": [
+      {
+        "name": "Page Heading"
+      }
+    ]
+  }
+  {% endschema %}
+  

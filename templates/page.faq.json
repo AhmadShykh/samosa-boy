@@ -1,0 +1,117 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "page_heading_Pbt9Tt": {
+      "type": "page-heading",
+      "settings": {
+        "show_top_text": true,
+        "top_text": "FAQ",
+        "top_padding": 5
+      }
+    },
+    "questions_NUWtdN": {
+      "type": "questions",
+      "blocks": {
+        "faq_item_KtTYNw": {
+          "type": "faq_item",
+          "settings": {
+            "question": "ARE YOUR SAMOSA BAKED OR FRIED?",
+            "answer": "<p>All our products are <strong>#bakednotfried</strong></p><p>We have developed a unique recipe which allows us to bake our samosas whilst maintaining a crunchy texture and an awesome truffle like filling! 😯</p>"
+          }
+        },
+        "faq_item_ntDQQA": {
+          "type": "faq_item",
+          "settings": {
+            "question": "HOW LONG DO YOUR SAMOSA LAST?",
+            "answer": "<p>Our samosas are best consumed on the day of delivery but can be stored in the fridge for up to 3 days.</p>"
+          }
+        },
+        "faq_item_99VKB8": {
+          "type": "faq_item",
+          "settings": {
+            "question": "HOW ARE SAMOSA MADE?",
+            "answer": "<p>Our samosas are hand crafted, hand filled, oven baked and hand decorated by a dedicated team of samosa experts. </p>"
+          }
+        },
+        "faq_item_nQgEJk": {
+          "type": "faq_item",
+          "settings": {
+            "question": "DO YOU OFFER VEGAN SAMOSA?",
+            "answer": "<p>Our R&D team are working on developing a range of vegan samosas but is not something we offer at present. </p>"
+          }
+        },
+        "faq_item_KgWNe8": {
+          "type": "faq_item",
+          "settings": {
+            "question": "HOW DO I STORE MY SAMOSA?",
+            "answer": "<p>Our samosas can be stored in the fridge for up to 3 days. We advise you to warm them up for 10 seconds prior to consuming.</p>"
+          }
+        },
+        "faq_item_XaPhAJ": {
+          "type": "faq_item",
+          "settings": {
+            "question": "HOW FRESH ARE YOU SAMOSA?",
+            "answer": "<p>Our samosas are made fresh on the day of dispatch.</p>"
+          }
+        },
+        "faq_item_MWyPrk": {
+          "type": "faq_item",
+          "settings": {
+            "question": "I HAVE NUT ALLERGY, CAN I EAT YOUR SAMOSA?",
+            "answer": "<p>Due to the handling of peanuts and nuts in our kitchens, we do not recommend anyone with a nut allergy to consume SamosaBoy products.</p><p>A full list of allergens can be found <a href=\"https://samosaboy.com/pages/allergens\" target=\"_blank\" title=\"Allergens\"><strong>here</strong></a></p>"
+          }
+        },
+        "faq_item_KadzVy": {
+          "type": "faq_item",
+          "settings": {
+            "question": "HOW DO I EAT YOUR SAMOSA?",
+            "answer": "<p>Many of our customers eat their samosas on their own, with a cup of coffee/tea or slightly warmed up with ice cream.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_KtTYNw",
+        "faq_item_ntDQQA",
+        "faq_item_99VKB8",
+        "faq_item_nQgEJk",
+        "faq_item_KgWNe8",
+        "faq_item_XaPhAJ",
+        "faq_item_MWyPrk",
+        "faq_item_KadzVy"
+      ],
+      "settings": {
+        "group_heading": "PRODUCT INFORMATION"
+      }
+    },
+    "page_heading_QDMAED": {
+      "type": "page-heading",
+      "settings": {
+        "show_top_text": false,
+        "top_text": "FAQs",
+        "top_padding": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "page_heading_Pbt9Tt",
+    "questions_NUWtdN",
+    "page_heading_QDMAED"
+  ]
+}

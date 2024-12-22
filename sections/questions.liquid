@@ -1,0 +1,92 @@
+{% schema %}
+{
+  "name": "FAQ Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "group_heading",
+      "label": "Group Heading",
+      "default": "Product Information"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "How long until my order is shipped?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>We dispatch orders twice per week. Order before 10am on Monday: Delivery on Tuesday.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ Section"
+    }
+  ]
+}
+{% endschema %}
+
+<section class="shopify-section flex justify-center section py-28 sm:px-0 px-10">
+  <div class="container">
+    <div class="c-accordion">
+      <h3 class="monsterrat text-7xl font-black mb-7">{{ section.settings.group_heading }}</h3>
+      <div class="faq-container">
+        {% for faq in section.blocks %}
+          <div class="border-b border-black faq-item">
+            <button 
+              class="f-body-lg font-extrabold flex justify-between w-full py-7 toggle-btn"
+              data-id="{{ forloop.index }}">
+              <h2 class="flex-1 text-left pr-3 text-3xl">{{ faq.settings.question }}</h2>
+              <span class="arrow-icon transition-transform duration-200">
+                <svg width="13" height="20" viewBox="0 0 13 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10.3585 9.88473L2.66589 17.3318M2.66593 1.99999L10.3585 9.72768" stroke="#2B2B2B" stroke-width="2.5" stroke-linecap="square"></path>
+                </svg>
+              </span>
+            </button>
+            <div class="wysiwyg text-2xl monsterrat pt-3 pb-8" id="faq-answer-{{ forloop.index }}">
+              {{ faq.settings.answer }}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  $(document).ready(function() {
+    // Initially hide all answers with smooth transition
+    $(".wysiwyg").hide();
+
+    // Toggle FAQ answer visibility with smooth transition
+    $(".toggle-btn").click(function() {
+      var index = $(this).data("id");
+      var answerDiv = $("#faq-answer-" + index);
+      var arrowIcon = $(this).find(".arrow-icon");
+
+      // Toggle the answer with a smooth slide animation
+      answerDiv.stop(true, true).slideToggle(300);
+
+      // Rotate the arrow icon using CSS transition
+      arrowIcon.toggleClass("rotate-180");
+    });
+  });
+</script>
+
+<style>
+  .arrow-icon.rotate-180 {
+    transform: rotate(180deg);
+    transition: transform 0.3s ease; /* Smooth rotation */
+  }
+</style>

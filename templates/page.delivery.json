@@ -1,0 +1,101 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "page_heading_m86LE6": {
+      "type": "page-heading",
+      "settings": {
+        "show_top_text": true,
+        "top_text": "Delivery",
+        "top_padding": 5
+      }
+    },
+    "questions_YHPnDp": {
+      "type": "questions",
+      "blocks": {
+        "faq_item_64nVry": {
+          "type": "faq_item",
+          "settings": {
+            "question": "WHERE DO YOU DELIVER?",
+            "answer": "<p>We deliver throughout the UK which includes deliveries to postcodes in mainland England and Wales.</p>"
+          }
+        },
+        "faq_item_apWBtJ": {
+          "type": "faq_item",
+          "settings": {
+            "question": "FREE SHIPPING?",
+            "answer": "<p>We don't charge a penny for delivering your samosas. We absorb that cost as a means of saying you for supporting our business.</p>"
+          }
+        },
+        "faq_item_9JdaWb": {
+          "type": "faq_item",
+          "settings": {
+            "question": "ORDER CONFIRMATION?",
+            "answer": "<p>Once you receive a confirmation email your order will be processed, therefore no amendments can be made to the products or shipping address. Please ensure you enter your shipping address correctly at checkout.</p>"
+          }
+        },
+        "faq_item_UjxXXy": {
+          "type": "faq_item",
+          "settings": {
+            "question": "WHEN WILL MY SAMOSA BE DELIVERED?",
+            "answer": "<p>Y﻿our order will be delivered on the date selected prior to checkout. The date of your delivery will also show on your confirmation email. You will receive an email/text on the morning of your delivery from Evri with a 1 hour window for when your order will be delivered.</p>"
+          }
+        },
+        "faq_item_yYFYHt": {
+          "type": "faq_item",
+          "settings": {
+            "question": "WHY IF I MISS MY DELIVERY?",
+            "answer": "<p>We advise all our customers to ensure there is someone to accept the delivery on the selected delivery date. If nobody will be in on the date of delivery, we will endeavour to leave it in a safe place or with a neighbour. </p><p>Please note: due to the samosas being made fresh on the day, we are unable to redeliver. </p><p>﻿As we use Evri as our delivery partner, you will be sent a text/email with a 1 hour delivery window, so you won't need to wait in all day.</p>"
+          }
+        },
+        "faq_item_qHzB36": {
+          "type": "faq_item",
+          "settings": {
+            "question": "WHICH SHIPPING COMPANY DO YOU USE?",
+            "answer": "<p><strong>We only use the BEST! 😎</strong><br/>We use Evri as our delivery partner due to their very high standards of care and on-time delivery which includes their state of the art 1-hour delivery window on the day of your delivery, so that you don't have to wait in all day.</p><p>We may sometimes use another delivery partner when we have an increased demand of orders to help maintain delivery dates for our customers.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_64nVry",
+        "faq_item_apWBtJ",
+        "faq_item_9JdaWb",
+        "faq_item_UjxXXy",
+        "faq_item_yYFYHt",
+        "faq_item_qHzB36"
+      ],
+      "settings": {
+        "group_heading": "ORDERS AND DELIVERY"
+      }
+    },
+    "page_heading_kzcbBD": {
+      "type": "page-heading",
+      "settings": {
+        "show_top_text": false,
+        "top_text": "FAQs",
+        "top_padding": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "page_heading_m86LE6",
+    "questions_YHPnDp",
+    "page_heading_kzcbBD"
+  ]
+}
