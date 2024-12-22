@@ -31,8 +31,8 @@
                 <div class="carousel-item">
                   <div class="product-card custom-card">
                       <img class="product-image" style="aspect-ratio:0.8" src="{{ product.featured_image | img_url: '450x450' }}" alt="{{ product.title }}">
-                      <div class="product-info monsterrat font-black text-3xl">
-                          <div class="product-title  custom-title ">{{ product.title }}</div>
+                      <div class="product-info monsterrat text-3xl">
+                          <h1 class="font-black black uppercase">{{ product.title }}</h1>
                       </div>
                       <div class="button-container">
                           {% include 'custom-button', url: '/your-order-page-url', text: 'BUILD NOW' , textSize:'4' %}
