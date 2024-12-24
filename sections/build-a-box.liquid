@@ -67,11 +67,6 @@
                 class="w-full h-full object-cover"
               >
 
-                <script>
-                  console.log({{product|json}});
-                  </script>
-
-
               {% if product.tags contains 'vegan' %}
                 <span class="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
                   VEGAN
@@ -92,7 +87,6 @@
                       class="lg:mt-0 w-full text-white rounded-3xl "
                       onclick="addToBox('{{ product.id }}', '{{ product.title }}','{{ product.featured_image  | img_url: '400x400'}}',{{ product.price }},{{ product.variants.first.id }},'{{ product.handle }}')"
                     >
-
                       <span
                         class="franxurter w-full push-btn-surface p-4"
                         style="background-color: rgb(235, 235, 46); color:black;"
@@ -210,7 +204,7 @@
         <div id="box-item-list-wrapper" class="box-selection lg:rounded-3xl ">
           <div class="box-slots lg:mt-0 md:mt-4  lg:block">
             <div class="card lg:p-10 p-2">
-              <ul id="boxItemsList" class="grid gap-2 grid-cols-6 lg:gap-8 lg:grid-cols-3 "></ul>
+              <ul id="boxItemsList" class="grid gap-2 grid-cols-6 lg:gap-8 lg:grid-cols-4 "></ul>
             </div>
           </div>
         </div>
@@ -221,181 +215,20 @@
             <div class="p-8">
               <h3 class="font-heading heading-style break-words full_shadow pb-4">Personalise A Card</h3>
               <ul class="mt-6 grid gap-4 grid-cols-3 lg:grid-cols-4 bap-greeting-cards-items">
-                <li
-                  class="cursor-pointer ounded-3xl selected"
-                  data-card="none"
-                  data-card-id="none"
-                  onclick="selectNumber({{ i }})"
-                >
-                  <img
-                    src="//doughnuttime.co.uk/cdn/shop/files/no-card.jpg?v=1677840423&amp;width=2000"
-                    alt=""
-                    srcset="//doughnuttime.co.uk/cdn/shop/files/no-card.jpg?v=1677840423&amp;width=352 352w, //doughnuttime.co.uk/cdn/shop/files/no-card.jpg?v=1677840423&amp;width=832 832w, //doughnuttime.co.uk/cdn/shop/files/no-card.jpg?v=1677840423&amp;width=1200 1200w, //doughnuttime.co.uk/cdn/shop/files/no-card.jpg?v=1677840423&amp;width=1920 1920w, //doughnuttime.co.uk/cdn/shop/files/no-card.jpg?v=1677840423&amp;width=2000 2000w"
-                    width="2000"
-                    height="2000"
-                    loading="lazy"
+                {% for product in collections['gift-cards'].products %}
+                  <li
+                    class="cursor-pointer rounded-3xl greeting-card"
+                    onclick="selectNumber({{ product.variants.first.id}},{{product.price }})"
                   >
-                </li>
-
-                <li
-                  class="cursor-pointer rounded-3xl greeting-card"
-                  data-card="happy-birthday"
-                  data-card-id="43272127119517"
-                  onclick="selectNumber({{ i }})"
-                >
-                  <img
-                    src="//doughnuttime.co.uk/cdn/shop/files/happy-birthday-portrait.jpg?v=1686816945&amp;width=2000"
-                    alt="Happy Birthday"
-                    srcset="//doughnuttime.co.uk/cdn/shop/files/happy-birthday-portrait.jpg?v=1686816945&amp;width=352 352w, //doughnuttime.co.uk/cdn/shop/files/happy-birthday-portrait.jpg?v=1686816945&amp;width=832 832w, //doughnuttime.co.uk/cdn/shop/files/happy-birthday-portrait.jpg?v=1686816945&amp;width=1200 1200w, //doughnuttime.co.uk/cdn/shop/files/happy-birthday-portrait.jpg?v=1686816945&amp;width=1920 1920w, //doughnuttime.co.uk/cdn/shop/files/happy-birthday-portrait.jpg?v=1686816945&amp;width=2000 2000w"
-                    width="2000"
-                    height="2000"
-                    loading="lazy"
-                  >
-                </li>
-
-                <li
-                  class="cursor-pointer rounded-3xl greeting-card"
-                  data-card="enjoy"
-                  data-card-id="43272189739165"
-                  onclick="selectNumber({{ i }})"
-                >
-                  <img
-                    src="//doughnuttime.co.uk/cdn/shop/products/greeting-card-enjoy.jpg?v=1677850143&amp;width=2000"
-                    alt="Enjoy"
-                    srcset="//doughnuttime.co.uk/cdn/shop/products/greeting-card-enjoy.jpg?v=1677850143&amp;width=352 352w, //doughnuttime.co.uk/cdn/shop/products/greeting-card-enjoy.jpg?v=1677850143&amp;width=832 832w, //doughnuttime.co.uk/cdn/shop/products/greeting-card-enjoy.jpg?v=1677850143&amp;width=1200 1200w, //doughnuttime.co.uk/cdn/shop/products/greeting-card-enjoy.jpg?v=1677850143&amp;width=1920 1920w, //doughnuttime.co.uk/cdn/shop/products/greeting-card-enjoy.jpg?v=1677850143&amp;width=2000 2000w"
-                    width="2000"
-                    height="2000"
-                    loading="lazy"
-                  >
-                </li>
-
-                <li
-                  class="cursor-pointer rounded-3xl greeting-card"
-                  data-card="sending-love"
-                  data-card-id="43272194392221"
-                  onclick="selectNumber({{ i }})"
-                >
-                  <img
-                    src="//doughnuttime.co.uk/cdn/shop/files/sending-love-portrait.jpg?v=1686816966&amp;width=2000"
-                    alt="Sending Love"
-                    srcset="//doughnuttime.co.uk/cdn/shop/files/sending-love-portrait.jpg?v=1686816966&amp;width=352 352w, //doughnuttime.co.uk/cdn/shop/files/sending-love-portrait.jpg?v=1686816966&amp;width=832 832w, //doughnuttime.co.uk/cdn/shop/files/sending-love-portrait.jpg?v=1686816966&amp;width=1200 1200w, //doughnuttime.co.uk/cdn/shop/files/sending-love-portrait.jpg?v=1686816966&amp;width=1920 1920w, //doughnuttime.co.uk/cdn/shop/files/sending-love-portrait.jpg?v=1686816966&amp;width=2000 2000w"
-                    width="2000"
-                    height="2000"
-                    loading="lazy"
-                  >
-                </li>
-
-                <li
-                  class="cursor-pointer rounded-3xl greeting-card"
-                  data-card="thanks-a-bunch"
-                  data-card-id="43272184692893"
-                  onclick="selectNumber({{ i }})"
-                >
-                  <img
-                    src="//doughnuttime.co.uk/cdn/shop/products/greeting-card-thanks.jpg?v=1677850177&amp;width=2000"
-                    alt="Thanks A Bunch"
-                    srcset="//doughnuttime.co.uk/cdn/shop/products/greeting-card-thanks.jpg?v=1677850177&amp;width=352 352w, //doughnuttime.co.uk/cdn/shop/products/greeting-card-thanks.jpg?v=1677850177&amp;width=832 832w, //doughnuttime.co.uk/cdn/shop/products/greeting-card-thanks.jpg?v=1677850177&amp;width=1200 1200w, //doughnuttime.co.uk/cdn/shop/products/greeting-card-thanks.jpg?v=1677850177&amp;width=1920 1920w, //doughnuttime.co.uk/cdn/shop/products/greeting-card-thanks.jpg?v=1677850177&amp;width=2000 2000w"
-                    width="2000"
-                    height="2000"
-                    loading="lazy"
-                  >
-                </li>
-
-                <li
-                  class="cursor-pointer rounded-3xl greeting-card"
-                  data-card="congrats"
-                  data-card-id="43272176435357"
-                  onclick="selectNumber({{ i }})"
-                >
-                  <img
-                    src="//doughnuttime.co.uk/cdn/shop/products/greeting-card-congrats.jpg?v=1677850123&amp;width=2000"
-                    alt="Congrats"
-                    srcset="//doughnuttime.co.uk/cdn/shop/products/greeting-card-congrats.jpg?v=1677850123&amp;width=352 352w, //doughnuttime.co.uk/cdn/shop/products/greeting-card-congrats.jpg?v=1677850123&amp;width=832 832w, //doughnuttime.co.uk/cdn/shop/products/greeting-card-congrats.jpg?v=1677850123&amp;width=1200 1200w, //doughnuttime.co.uk/cdn/shop/products/greeting-card-congrats.jpg?v=1677850123&amp;width=1920 1920w, //doughnuttime.co.uk/cdn/shop/products/greeting-card-congrats.jpg?v=1677850123&amp;width=2000 2000w"
-                    width="2000"
-                    height="2000"
-                    loading="lazy"
-                  >
-                </li>
-
-                <li
-                  class="cursor-pointer rounded-3xl greeting-card"
-                  data-card="blank"
-                  data-card-id="43272790114461"
-                  onclick="selectNumber({{ i }})"
-                >
-                  <img
-                    src="//doughnuttime.co.uk/cdn/shop/products/greeting-card-blank.jpg?v=1677849917&amp;width=2000"
-                    alt="Blank"
-                    srcset="//doughnuttime.co.uk/cdn/shop/products/greeting-card-blank.jpg?v=1677849917&amp;width=352 352w, //doughnuttime.co.uk/cdn/shop/products/greeting-card-blank.jpg?v=1677849917&amp;width=832 832w, //doughnuttime.co.uk/cdn/shop/products/greeting-card-blank.jpg?v=1677849917&amp;width=1200 1200w, //doughnuttime.co.uk/cdn/shop/products/greeting-card-blank.jpg?v=1677849917&amp;width=1920 1920w, //doughnuttime.co.uk/cdn/shop/products/greeting-card-blank.jpg?v=1677849917&amp;width=2000 2000w"
-                    width="2000"
-                    height="2000"
-                    loading="lazy"
-                  >
-                </li>
-
-                <li
-                  class="cursor-pointer rounded-3xl greeting-card"
-                  data-card="congrats-1"
-                  data-card-id="43272179220637"
-                  onclick="selectNumber({{ i }})"
-                >
-                  <img
-                    src="//doughnuttime.co.uk/cdn/shop/products/greeting-card-cheers.jpg?v=1677849968&amp;width=2000"
-                    alt="Cheers To You"
-                    srcset="//doughnuttime.co.uk/cdn/shop/products/greeting-card-cheers.jpg?v=1677849968&amp;width=352 352w, //doughnuttime.co.uk/cdn/shop/products/greeting-card-cheers.jpg?v=1677849968&amp;width=832 832w, //doughnuttime.co.uk/cdn/shop/products/greeting-card-cheers.jpg?v=1677849968&amp;width=1200 1200w, //doughnuttime.co.uk/cdn/shop/products/greeting-card-cheers.jpg?v=1677849968&amp;width=1920 1920w, //doughnuttime.co.uk/cdn/shop/products/greeting-card-cheers.jpg?v=1677849968&amp;width=2000 2000w"
-                    width="2000"
-                    height="2000"
-                    loading="lazy"
-                  >
-                </li>
-
-                <li
-                  class="cursor-pointer rounded-3xl greeting-card"
-                  data-card="cheers-to-you"
-                  data-card-id="43270315868317"
-                  onclick="selectNumber({{ i }})"
-                >
-                  <img
-                    src="//doughnuttime.co.uk/cdn/shop/products/greeting-card-smart-cookie.jpg?v=1677850211&amp;width=2000"
-                    alt="You're One Smart Cookie"
-                    srcset="//doughnuttime.co.uk/cdn/shop/products/greeting-card-smart-cookie.jpg?v=1677850211&amp;width=352 352w, //doughnuttime.co.uk/cdn/shop/products/greeting-card-smart-cookie.jpg?v=1677850211&amp;width=832 832w, //doughnuttime.co.uk/cdn/shop/products/greeting-card-smart-cookie.jpg?v=1677850211&amp;width=1200 1200w, //doughnuttime.co.uk/cdn/shop/products/greeting-card-smart-cookie.jpg?v=1677850211&amp;width=1920 1920w, //doughnuttime.co.uk/cdn/shop/products/greeting-card-smart-cookie.jpg?v=1677850211&amp;width=2000 2000w"
-                    width="2000"
-                    height="2000"
-                    loading="lazy"
-                  >
-                </li>
-
-                <li
-                  class="cursor-pointer rounded-3xl greeting-card"
-                  data-card="palm-springs"
-                  data-card-id="43786924982429"
-                  onclick="selectNumber({{ i }})"
-                >
-                  <img
-                    src="//doughnuttime.co.uk/cdn/shop/files/palm-springs-portrait.jpg?v=1687347154&amp;width=2000"
-                    alt="Palm Springs"
-                    srcset="//doughnuttime.co.uk/cdn/shop/files/palm-springs-portrait.jpg?v=1687347154&amp;width=352 352w, //doughnuttime.co.uk/cdn/shop/files/palm-springs-portrait.jpg?v=1687347154&amp;width=832 832w, //doughnuttime.co.uk/cdn/shop/files/palm-springs-portrait.jpg?v=1687347154&amp;width=1200 1200w, //doughnuttime.co.uk/cdn/shop/files/palm-springs-portrait.jpg?v=1687347154&amp;width=1920 1920w, //doughnuttime.co.uk/cdn/shop/files/palm-springs-portrait.jpg?v=1687347154&amp;width=2000 2000w"
-                    width="2000"
-                    height="2000"
-                    loading="lazy"
-                  >
-                </li>
-
-                <li
-                  class="cursor-pointer rounded-3xl greeting-card"
-                  data-card="halloween-greeting-card"
-                  data-card-id="43956677181597"
-                  onclick="selectNumber({{ i }})"
-                >
-                  <img
-                    src="//doughnuttime.co.uk/cdn/shop/files/halloween-greeting-card.jpg?v=1696232881&amp;width=2000"
-                    alt="Boo!"
-                    srcset="//doughnuttime.co.uk/cdn/shop/files/halloween-greeting-card.jpg?v=1696232881&amp;width=352 352w, //doughnuttime.co.uk/cdn/shop/files/halloween-greeting-card.jpg?v=1696232881&amp;width=832 832w, //doughnuttime.co.uk/cdn/shop/files/halloween-greeting-card.jpg?v=1696232881&amp;width=1200 1200w, //doughnuttime.co.uk/cdn/shop/files/halloween-greeting-card.jpg?v=1696232881&amp;width=1920 1920w, //doughnuttime.co.uk/cdn/shop/files/halloween-greeting-card.jpg?v=1696232881&amp;width=2000 2000w"
-                    width="2000"
-                    height="2000"
-                    loading="lazy"
-                  >
-                </li>
+                    <img
+                      src="{{ product.featured_image  | img_url}}"
+                      alt="Boo!"
+                      width="2000"
+                      height="2000"
+                      loading="lazy"
+                    >
+                  </li>
+                {% endfor %}
               </ul>
             </div>
           </div>
@@ -460,17 +293,111 @@
 
             <div class="bap-add-to-bag col-span-3 lg:col-span-2">
               <div class="relative z-10 text-center">
-                <div class="w-full">
-                  <button
-                    class="bap-add-to-cart-btn add-to-cart-btn theme-button w-full"
-                    id="bap-add-to-cart-btn"
-                    onclick="addToCart()"
+                <div class="w-full"></div>
+                {% comment %} <form
+                  method="post"
+                  action="/cart/add"
+                  id="product-form-template--23889287709056__main"
+                  accept-charset="UTF-8"
+                  class="shopify-product-form"
+                  enctype="multipart/form-data"
+                  data-product-form=""
+                  data-product-handle="build-a-pack-12-pack-edit-10"
+                  data-enable-history-state="true"
+                  x-ref="productForm"
+                >
+                  <input type="hidden" name="form_type" value="product"><input type="hidden" name="utf8" value="✓">
+                  <input type="hidden" id="bap-total-quantity" value="12">
+                  <input type="hidden" id="bap-pack-price" value="5540">
+                  <input type="hidden" id="bap-product-form-id" value="product-form-template--23889287709056__main">
+                  <div class="hidden">
+                    <label class="" for="fallback-selector-template--23889287709056__main">Variant</label>
+                    <select
+                      x-ref="singleVariantSelector"
+                      name="id"
+                      id="fallback-selector-template--23889287709056__main"
+                      class="font-secondary text-sm"
+                    >
+                      <option
+                        selected="selected"
+                        x-bind:selected="currentVariantId === 52546414281088"
+                        value="52546414281088"
+                      >
+                        Default Title
+                      </option>
+                    </select>
+                  </div>
+
+                  
+
+                  <input
+                    type="hidden"
+                    id="pack-contents"
+                    name="properties[Pack Contents]"
+                    value="
+                      1. WHITE XMAS
+                      2. BRUNO MARS
+                      3. DAVID HASSELHOFF
+                      4. KYLIE MINT-OGUE
+                      5. CHRISTMAS LIGHTS
+                      6. CHRISTMAS LIGHTS
+                      7. IT’S CHRISTMAS DAIM
+                      8. THE OG
+                      9. THE OG
+                      10. ICE ICE BAE BAE
+                      11. D'OH NUT
+                      12. THEY SEE ME SCROLLIN'
+                    "
                   >
-                    <span class="push-btn-surface p-4 w-full">
-                      <span x-text="addToCartText">Add to Cart</span>
-                    </span>
-                  </button>
-                </div>
+                  <input
+                    type="hidden"
+                    id="pack-contents-clean"
+                    name="properties[__Pack Contents]"
+                    value="WHITE XMAS,BRUNO MARS,DAVID HASSELHOFF,KYLIE MINT-OGUE,CHRISTMAS LIGHTS,CHRISTMAS LIGHTS,IT'S CHRISTMAS DAIM,THE OG,THE OG,ICE ICE BAE BAE,D'OH NUT,THEY SEE ME SCROLLIN'"
+                  >
+                  <input type="hidden" id="bap-size" name="properties[Pack Size]" value="12">
+
+                  <input type="hidden" name="product-id" value="14671659467136"
+                  ><input type="hidden" name="section-id" value="template--23889287709056__main">
+                </form> {% endcomment %}
+                <form
+                  method="post"
+                  action="/cart/add"
+                  accept-charset="UTF-8"
+                  class="shopify-product-form"
+                  enctype="multipart/form-data"
+                  id="dynamic-cart-form"
+                >
+                  <!-- Gift Card -->
+                  <input type="hidden" name="items[1][id]" id="gift-card-id" value="">
+                  <input
+                    type="hidden"
+                    name="items[1][properties][Message]"
+                    id="gift-card-message"
+                    value=""
+                  >
+
+                  <!-- Static Product -->
+                  <input type="hidden" id="static-product" name="items[0][id]" value="">
+                  <input
+                    type="hidden"
+                    name="items[0][properties][Order Items]"
+                    id="static-product-properties"
+                    value=""
+                  >
+
+                  <!-- Submit Button -->
+                  <div class="w-full">
+                    <button
+                      class="bap-add-to-cart-btn add-to-cart-btn theme-button w-full"
+                      id="bap-add-to-cart-btn"
+                    >
+                      <span class="push-btn-surface p-4 w-full">
+                        <span x-text="addToCartText">Add to Cart</span>
+                      </span>
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
@@ -541,7 +468,6 @@
                   style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out;"
                 >
                   {{ section.settings.allegen_information_content }}
-
                 </div>
               </div>
             </div>

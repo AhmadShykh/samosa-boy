@@ -2,6 +2,11 @@ let selectedProducts = [];
 let maxBoxItems = 6; // Maximum items in the box
 let selectedNumber = null;
 let totalAmount = 0;
+const data = {
+    4: 'build-a-pack-4-pack',
+    8: 'build-a-pack-8-pack',
+    12: 'build-a-pack-12-pack'
+};
 
 
 let products = []; // Declare an empty array to hold product data
@@ -67,6 +72,9 @@ function randomizeProducts() {
         i++;
     }
 
+    const namesArray = selectedProducts.map(item => item.name);
+    updateStaticProductProperties(namesArray);
+
     // Add selected products to the box
     selectedProducts.forEach(product => {
         addToBox(product.id, product.title, product.featured_image,product.varId,product.handle);
@@ -106,6 +114,7 @@ function setBoxLimit(limit,wantLoad) {
 
     maxBoxItems = limit; // Set the box limit to the chosen value
     clearBox(wantLoad); // Clear the box for a new selection
+    setStaticProduct(limit); // Set the selected product ID in the hidden input field
 
     const ulObj = document.getElementById('boxItemsList');
     // if(limit == 4)
@@ -114,8 +123,6 @@ function setBoxLimit(limit,wantLoad) {
     //     ulObj.classList.add('lg:grid-cols-3');
     // }
     // else{
-        ulObj.classList.remove('lg:grid-cols-3');
-        ulObj.classList.add('lg:grid-cols-4');
     // }
 
     // Store the limit in localStorage
@@ -151,6 +158,29 @@ function setBoxLimit(limit,wantLoad) {
 }
 
 
+async function setStaticProduct(limit) {
+    try {
+        // Await the fetch and make sure you parse the response as JSON
+        const response = await fetch(`${window.Shopify.routes.root}products/${data[limit]}.js`);
+        
+        // Check if the response is ok
+        if (!response.ok) {
+            throw new Error(`Failed to fetch product data for ${data[limit]}`);
+        }
+
+        // Parse the JSON response
+        const productData = await response.json();
+        
+        // Call the function to update the total price with the variant's price
+        setAmountToTotal(productData.variants[0].price);
+        // Set the selected product ID in the hidden input field
+        document.getElementById("static-product").value = productData.variants[0].id;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+
 // Function to set the stored limit
 function setStoredLimit(wantLoad) {
     const storedLimit = localStorage.getItem("selectedBoxLimit");
@@ -178,10 +208,7 @@ function addToBox(productId, productName, productImage,price,variantId,prodHandl
         return;
     }
 
-    totalAmount += (price/100);
-    // console.log("Total Amount: " , totalAmount);
-    // console.log("Price: " , price);
-    document.getElementById('bap-pack-price-preview').innerHTML = `$${totalAmount}`;
+    //addAmountToTotal(price);
 
     if(productVal < 1){
         document.getElementById(`bap-doughnut_${productId}`).style.display = 'block';
@@ -192,6 +219,9 @@ function addToBox(productId, productName, productImage,price,variantId,prodHandl
 
 
     selectedProducts.push({ id: productId, name: productName, image: productImage,varId:variantId,handle:prodHandle });
+    const namesArray = selectedProducts.map(item => item.name);
+    updateStaticProductProperties(namesArray);
+
 
     if(selectedProducts.length >= maxBoxItems) {
         document.getElementById("number-selection").style.display = "block";
@@ -210,10 +240,29 @@ function addToBox(productId, productName, productImage,price,variantId,prodHandl
     }
 
     updateBoxUI();
+
+    
 }
+
+
+function addAmountToTotal(price) {
+    totalAmount += (price / 100);
+    // console.log("Total Amount: " , totalAmount);
+    // console.log("Price: " , price);
+    document.getElementById('bap-pack-price-preview').innerHTML = `$${totalAmount}`;
+}
+function setAmountToTotal(price) {
+    totalAmount = (price / 100);
+    // console.log("Total Amount: " , totalAmount);
+    // console.log("Price: " , price);
+    document.getElementById('bap-pack-price-preview').innerHTML = `$${totalAmount}`;
+}
+
+
 function clearBox(wantLoad) {
     selectedProducts = [];
     selectedNumber = null;
+    updateStaticProductProperties([]);
     document.getElementById("number-selection").style.display = "none";
     document.getElementById("additional-info").style.display = "none";
     document.getElementById("box-selections-funcs").style.display = "block";
@@ -275,6 +324,8 @@ function removeProduct(index) {
 
     }
     selectedProducts.splice(index, 1);
+    const namesArray = selectedProducts.map(item => item.name);
+    updateStaticProductProperties(namesArray);
 
     updateBoxUI();
 }
@@ -288,208 +339,247 @@ function hideRemoveIcon(item) {
     item.querySelector(".remove-icon").style.display = "none";
 }
 
+var cardPrice = 0;
+var cardProduct = null;
 
-function selectNumber(number) {
-    selectedNumber = number;
+function selectNumber(variantId,price) {
+    console.log(price);
+    // selectedNumber = number;
+    cardPrice = price;
+    // console.log(price);
+    addAmountToTotal(cardPrice);
+    // cardProduct = {price,variantId};
+    document.getElementById("gift-card-id").value = variantId.toString();
     document.getElementById("additional-info").style.display = "block";
     document.getElementById("number-selection").style.display = "none";
 }
 
 function selectCard(){
+
+    // selectedNumber = 0;
+    addAmountToTotal(-cardPrice);
+    cardPrice = 0;
+    // cardProduct = null;
+    document.getElementById("gift-card-id").value = "";
+
     document.getElementById("additional-info").style.display = "none";
     document.getElementById("number-selection").style.display = "block";
 }
-function addToCart() {
-    // Step 1: Create a bundle representation
-    const bundleName = "Custom Donut Bundle"; // Name of the bundle
-    const bundleProducts = selectedProducts.map(product => ({
-        name: product.name,
-        varId: product.varId,
-        quantity: product.quantity || 1,
-    }));
-    const bundleId = `bundle-${Date.now()}`; // Unique identifier for the bundle
+// function addToCart() {
+//     const bundleName = "Custom Donut Bundle"; // Name of the bundle
+//     const bundleProducts = selectedProducts.map(product => ({
+//         name: product.name,
+//         varId: product.varId,
+//         quantity: product.quantity || 1,
+//     }));
+//     const bundleId = `bundle-${Date.now()}`; // Unique identifier for the bundle
 
-    // Step 2: Build the bundle properties
-    const bundleProperties = {
-        bundle_name: bundleName,
-        included_products: JSON.stringify(bundleProducts), // Stringify for comparison
-    };
+//     const bundleProperties = {
+//         bundle_name: bundleName,
+//         included_products: JSON.stringify(bundleProducts),
+//     };
+
+//     const uniqueProducts = selectedProducts.reduce((acc, product) => {
+//         const existingProduct = acc.find(p => p.varId === product.varId);
+
+//         if (existingProduct) {
+//             existingProduct.quantity += product.quantity || 1;
+//         } else {
+//             acc.push({
+//                 name: product.name,
+//                 handle: product.handle,
+//                 varId: product.varId,
+//                 quantity: product.quantity || 1,
+//             });
+//         }
+
+//         return acc;
+//     }, []);
+
+//     const stockCheckPromises = uniqueProducts.map(product => {
+//         const productHandle = product.handle;
+
+//         return fetch(`${window.Shopify.routes.root}products/${productHandle}.js`)
+//             .then(response => {
+//                 if (!response.ok) {
+//                     throw new Error(`Failed to fetch product data for ${product.name}`);
+//                 }
+//                 return response.json();
+//             })
+//             .then(productData => {
+//                 const variant = productData.variants.find(variant => variant.id === product.varId);
+//                 if (!variant) {
+//                     throw new Error(`Variant not found for ${product.name}`);
+//                 }
+
+//                 if (variant.inventory_quantity < product.quantity) {
+//                     throw new Error(
+//                         `Insufficient stock for ${product.name}. Available: ${variant.inventory_quantity}, Required: ${product.quantity}`
+//                     );
+//                 }
+
+//                 return {
+//                     name: product.name,
+//                     varId: product.varId,
+//                     requestedQuantity: product.quantity,
+//                     availableQuantity: variant.inventory_quantity,
+//                     price: variant.price,
+//                     isAvailable: true,
+//                 };
+//             })
+//             .catch(() => {
+//                 return {
+//                     isAvailable: false,
+//                 };
+//             });
+//     });
+
+//     Promise.all(stockCheckPromises)
+//         .then(stockData => {
+//             const unavailableProducts = stockData.filter(product => !product.isAvailable);
+//             console.log(stockData);
+//             if (unavailableProducts.length > 0) {
+//                 const unavailableNames = unavailableProducts
+//                     .map(product => `${product.name} (Requested: ${product.requestedQuantity}, Available: ${product.availableQuantity})`)
+//                     .join('\n');
+//                 alert(`The following products are not available in the required quantities:\n${unavailableNames}`);
+//                 return;
+//             }
+
+//             const totalCost = stockData.reduce((sum, product) => {
+//                 if (product.isAvailable) {
+//                     return sum + (product.price / 100 * product.requestedQuantity);
+//                 }
+//                 return sum;
+//             }, 0);
+
+//             bundleProperties.total_cost = totalCost;
+
+//             return fetch('/cart.js', {
+//                 method: 'GET',
+//                 headers: {
+//                     'Content-Type': 'application/json',
+//                 },
+//             });
+//         })
+//         .then(response => {
+//             if (!response.ok) {
+//                 throw new Error(`Failed to fetch cart. HTTP status: ${response.status}`);
+//             }
+//             return response.json();
+//         })
+//         .then(cart => {
+//             const existingBundle = cart.items.find(item => {
+//                 return (
+//                     item.properties &&
+//                     item.properties.bundle_name === bundleName &&
+//                     item.properties.included_products === JSON.stringify(bundleProducts)
+//                 );
+//             });
 
 
-    // Step 3: Make products unique and sum their quantities
-    const uniqueProducts = selectedProducts.reduce((acc, product) => {
-        const existingProduct = acc.find(p => p.varId === product.varId);
+//             if (cardProduct !== null) {
+//                 var cartMessage = document.getElementById('greeting-card-message').value;
+//                 const cardPayload = {
+//                     items: [
+//                         {
+//                             id: cardProduct.variantId,
+//                             quantity: 1,
+//                             properties: {
+//                                 card_message: cartMessage,
+//                             },
+//                         },
+//                     ],
+//                 };
+//                 console.log(cardPayload);
+            
+//                 const existingCard = cart.items.find(item => 
+//                     item.id === cardProduct.variantId && 
+//                     item.properties && 
+//                     item.properties.card_message === cartMessage
+//                 );
+            
+//                 if (existingCard) {
+//                     // Update the quantity of the existing card
+//                     const lineIndex = cart.items.findIndex(item => item === existingCard) + 1;
+            
+//                     return fetch('/cart/change.js', {
+//                         method: 'POST',
+//                         headers: {
+//                             'Content-Type': 'application/json',
+//                         },
+//                         body: JSON.stringify({
+//                             line: lineIndex,
+//                             quantity: existingCard.quantity + 1,
+//                         }),
+//                     });
+//                 } else {
 
-        if (existingProduct) {
-            // Add quantities for duplicate products
-            existingProduct.quantity += product.quantity || 1;
-        } else {
-            // Add a new product to the unique array
-            acc.push({
-                name: product.name,
-                handle: product.handle,
-                varId: product.varId,
-                quantity: product.quantity || 1,
-            });
-        }
+//                     // Add a new card to the cart
+//                     return fetch('/cart/add.js', {
+//                         method: 'POST',
+//                         headers: {
+//                             'Content-Type': 'application/json',
+//                         },
+//                         body: JSON.stringify(cardPayload),
+//                     });
+//                 }
 
-        return acc;
-    }, []);
-
-
-    // Step 4: Validate stock for unique products and calculate total cost
-    const stockCheckPromises = uniqueProducts.map(product => {
-        const productHandle = product.handle; // Assuming `handle` is included in `selectedProducts`
-
-        return fetch(`${window.Shopify.routes.root}products/${productHandle}.js`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch product data for ${product.name}`);
-                }
-                return response.json();
-            })
-            .then(productData => {
-                // Find the variant
-                const variant = productData.variants.find(variant => variant.id === product.varId);
-                if (!variant) {
-                    throw new Error(`Variant not found for ${product.name}`);
-                }
-
-                // Validate inventory
-                if (variant.inventory_quantity < product.quantity) {
-                    throw new Error(
-                        `Insufficient stock for ${product.name}. Available: ${variant.inventory_quantity}, Required: ${product.quantity}`
-                    );
-                }
-
-                // Add the price of the product to the total cost
-                return {
-                    name: product.name,
-                    varId: product.varId,
-                    requestedQuantity: product.quantity,
-                    availableQuantity: variant.inventory_quantity,
-                    price: variant.price, 
-                    isAvailable: true,
-                };
-            })
-            .catch(error => {
-                return {
-                    isAvailable: false,
-                };
-            });
-    });
-
-    Promise.all(stockCheckPromises)
-        .then(stockData => {
-            // Check if any product is unavailable
-            const unavailableProducts = stockData.filter(product => !product.isAvailable);
-
-            if (unavailableProducts.length > 0) {
-                // Display an alert for unavailable products
-                const unavailableNames = unavailableProducts
-                    .map(product => `${product.name} (Requested: ${product.requestedQuantity}, Available: ${product.availableQuantity})`)
-                    .join('\n');
-                alert(`The following products are not available in the required quantities:\n${unavailableNames}`);
-                return; // Stop further execution
-            }
-
-            // Calculate the total cost of the bundle
-            const totalCost = stockData.reduce((sum, product) => {
-                if (product.isAvailable) {
-                    return sum + (product.price/100 * product.requestedQuantity); // Multiply by quantity
-                }
-                return sum;
-            }, 0);
-
-            // Add the total cost to the bundle properties
-            bundleProperties.total_cost = totalCost;
+//             }
             
 
+//             if (existingBundle) {
+//                 const lineIndex = cart.items.findIndex(item => item === existingBundle) + 1;
 
-            // Step 4: Fetch the current cart
-            return fetch('/cart.js', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Failed to fetch cart. HTTP status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(cart => {
+//                 const updatedPayload = {
+//                     line: lineIndex,
+//                     quantity: existingBundle.quantity + 1,
+//                 };
 
-            // Step 5: Check if a matching bundle exists in the cart
-            const existingBundle = cart.items.find(item => {
-                return (
-                    item.properties &&
-                    item.properties.bundle_name === bundleName &&
-                    item.properties.included_products === JSON.stringify(bundleProducts)
-                );
-            });
+//                 return fetch('/cart/change.js', {
+//                     method: 'POST',
+//                     headers: {
+//                         'Content-Type': 'application/json',
+//                     },
+//                     body: JSON.stringify(updatedPayload),
+//                 });
+//             } else {
+//                 const payload = {
+//                     items: [
+//                         {
+//                             id: selectedProducts[0].varId,
+//                             quantity: 1,
+//                             properties: {
+//                                 ...bundleProperties,
+//                                 bundle_id: bundleId,
+//                             },
+//                         },
+//                     ],
+//                 };
 
-            if (existingBundle) {
-                // Step 6: Update the quantity of the existing bundle using the line property
-                const lineIndex = cart.items.findIndex(item => item === existingBundle) + 1; // Get the line (1-based index)
-            
-                const updatedPayload = {
-                    line: lineIndex, // Use the line number for the update
-                    quantity: existingBundle.quantity + 1, // Increment the bundle quantity
-                };
-            
-            
-                return fetch('/cart/change.js', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(updatedPayload),
-                });
-            } else {
-                // Step 7: Add a new bundle to the cart
-                const payload = {
-                    items: [
-                        {
-                            id: selectedProducts[0].varId, // Use the variant ID of one product to represent the bundle
-                            quantity: 1, // Treat the entire bundle as a single cart item
-                            properties: {
-                                ...bundleProperties,
-                                bundle_id: bundleId, // Unique identifier for this bundle
-                            },
-                        },
-                    ],
-                };
-
-                console.log('Adding new bundle:', payload);
-
-                return fetch('/cart/add.js', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(payload),
-                });
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Failed to update cart. HTTP status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Cart updated:', data);
-            alert(`Bundle "${bundleName}" has been updated in the cart with a total cost of $${bundleProperties.total_cost}.`);
-        })
-        .catch(error => {
-            console.error('Error managing cart:', error);
-        });
-}
-
-
+//                 return fetch('/cart/add.js', {
+//                     method: 'POST',
+//                     headers: {
+//                         'Content-Type': 'application/json',
+//                     },
+//                     body: JSON.stringify(payload),
+//                 });
+//             }
+//         })
+//         .then(response => {
+//             if (!response.ok) {
+//                 throw new Error(`Failed to update cart. HTTP status: ${response.status}`);
+//             }
+//             return response.json();
+//         })
+//         .then(data => {
+//             console.log('Cart updated:', data);
+//             alert(`Bundle "${bundleName}" has been updated in the cart with a total cost of $${bundleProperties.total_cost}.`);
+//         })
+//         .catch(error => {
+//             console.error('Error managing cart:', error);
+//         });
+// }
 
 
 function removeLast(){
@@ -561,3 +651,47 @@ document.addEventListener('DOMContentLoaded', function () {
         toggleButton.setAttribute('aria-expanded', !isOpen);
     });
 });
+
+
+// event listener for the gift card message input
+document.addEventListener("DOMContentLoaded", function () {
+    const messageBox = document.getElementById("greeting-card-message");
+    const charsLeftElement = document.querySelector(".gift-message-chars-left");
+  
+    // Handle the 'onchange' and 'onkeyup' events
+    messageBox.addEventListener("input", function () {
+      const remainingChars = 200 - this.value.length;
+      charsLeftElement.textContent = remainingChars;
+  
+      // Update the gift card message dynamically (if required elsewhere in the app)
+      updateGiftCardMessage(this.value);
+    });
+  
+    // Function to update the gift card message
+    function updateGiftCardMessage(message) {
+      document.getElementById("gift-card-message").value = message;
+      // Add additional logic here to handle the updated message, e.g., sending it to a hidden field
+    }
+  });
+
+
+  // Function to update static product properties
+function updateStaticProductProperties(products) {
+    // Sort product names to ensure canonical order
+    const sortedProducts = products.sort().join(", ");
+    document.getElementById("static-product-properties").value = sortedProducts;
+  }
+  
+
+// in case no card is selected
+  document.getElementById('dynamic-cart-form').addEventListener('submit', function(event) {
+    // Check if the gift card ID is empty
+    var giftCardId = document.getElementById('gift-card-id').value;
+
+    // If the gift card ID is empty, remove the gift card fields from the form
+    if (!giftCardId) {
+      // Remove the gift card properties from the form data
+      document.getElementById('gift-card-id').remove();
+      document.getElementById('gift-card-message').remove();
+    }
+  });
