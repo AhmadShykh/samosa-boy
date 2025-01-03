@@ -1,6 +1,6 @@
-<div class="parent-div ">
+<div class="parent-div " style="{% if wfull == true or wfull != blank %} width:100%; text-align:center {% endif %}">
     <div class="background-div">.</div>
-    <a href="{{ url }}" class="text-{{ textSize }}xl franxurter font-thin button-link">
+    <a href="{{ url }}" class="w-full text-{{ textSize }}xl franxurter font-thin button-link">
         {{ text }}
     </a>
 </div>

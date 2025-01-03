@@ -27,15 +27,15 @@
         </div>
         <div class="carousel-container">
           <div class="carousel-track">
-              {% for product in collections.all.products limit: 6 %}
+              {% for product in collections['all-products'].products limit: 6 %}
                 <div class="carousel-item">
                   <div class="product-card custom-card">
                       <img class="product-image" style="aspect-ratio:0.8" src="{{ product.featured_image | img_url: '450x450' }}" alt="{{ product.title }}">
-                      <div class="product-info monsterrat text-3xl">
+                      <div class="product-info monsterrat text-3xl text-center">
                           <h1 class="font-black black uppercase">{{ product.title }}</h1>
                       </div>
-                      <div class="button-container">
-                          {% include 'custom-button', url: '/your-order-page-url', text: 'BUILD NOW' , textSize:'4' %}
+                      <div class="button-container flex justify-center">
+                          {% include 'custom-button', url: '/pages/build-a-box', text: 'BUILD NOW' , textSize:'4' %}
                       </div>
                   </div>
                 </div>

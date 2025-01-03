@@ -35,8 +35,13 @@ function updateTimer() {
     const now = new Date();
     const timeDifference = targetDate - now;
 
+    // Select the container with aria-label "countdown-timer"
+    const countdownContainers = document.querySelectorAll('[aria-label="countdown-timer"]');
+
     if (timeDifference <= 0) {
-        document.getElementById('countdown-timer').innerHTML = "Time's up!";
+        countdownContainers.forEach(container => {
+            container.textContent = "Time's up!";
+        });
         return;
     }
 
@@ -44,9 +49,16 @@ function updateTimer() {
     const minutes = Math.floor((timeDifference / (1000 * 60)) % 60);
     const seconds = Math.floor((timeDifference / 1000) % 60);
 
-    document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-    document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
-    document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+    // Update elements with aria-labels
+    document.querySelectorAll('[aria-label="hours"]').forEach(el => {
+        el.textContent = String(hours).padStart(2, '0');
+    });
+    document.querySelectorAll('[aria-label="minutes"]').forEach(el => {
+        el.textContent = String(minutes).padStart(2, '0');
+    });
+    document.querySelectorAll('[aria-label="seconds"]').forEach(el => {
+        el.textContent = String(seconds).padStart(2, '0');
+    });
 }
 
 // Update the timer every second
@@ -343,15 +355,18 @@ var cardPrice = 0;
 var cardProduct = null;
 
 function selectNumber(variantId,price) {
-    console.log(price);
-    // selectedNumber = number;
-    cardPrice = price;
-    // console.log(price);
-    addAmountToTotal(cardPrice);
-    // cardProduct = {price,variantId};
-    document.getElementById("gift-card-id").value = variantId.toString();
-    document.getElementById("additional-info").style.display = "block";
-    document.getElementById("number-selection").style.display = "none";
+    if(variantId != null){
+        
+        console.log(price);
+        // selectedNumber = number;
+        cardPrice = price;
+        // console.log(price);
+        addAmountToTotal(cardPrice);
+        // cardProduct = {price,variantId};
+        document.getElementById("gift-card-id").value = variantId.toString();
+        document.getElementById("additional-info").style.display = "block";
+        document.getElementById("number-selection").style.display = "none";
+    }
 }
 
 function selectCard(){

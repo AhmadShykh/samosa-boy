@@ -1,88 +1,97 @@
 <div class="custom-div-parent">
-    <div class="custom-div-child-1 border border-black"></div>    
-    <div class="card-container border border-black p-4 bg-white rounded-3xl relative">
-        <img class=" object-cover" style="aspect-ratio:0.8" src="{{ img | img_url: '450x450' }}" alt="{{ text }}">
-        <div class="mt-2 custom-text">
-            <div class="text-left text-4xl text-black font-black franxurter">{{ text }}</div>
-            <div class="text-left text-2xl font-light montserrat ">{{ price | money_with_currency }}</div>
-        </div>
-        {% if howitworks %}
-            <div class="mt-12 franxurter">
-                {% include 'custom-add-cart-button', url: '/your-order-page-url', text: 'ADD TO CART' %}
+  <div class="custom-div-child-1 border border-black"></div>
+  <div class="card-container border border-black p-4 bg-white rounded-3xl relative">
+    <img class=" object-cover" style="aspect-ratio:0.8" src="{{ img | img_url: '450x450' }}" alt="{{ text }}">
+    {% if howitworks %}
+      <div class="mt-2 custom-text">
+        <div class="text-left text-3xl text-black font-black monserrat">{{ text }}</div>
+        <div class="text-left text-2xl font-light montserrat ">{{ price | money_with_currency }}</div>
+      </div>
+
+      <div class="mt-12 franxurter">
+        {% comment %} {% include 'custom-add-cart-button', url: '/your-order-page-url', text: 'ADD TO CART' %} {% endcomment %}
+        <form method="post" action="/cart/add">
+            <input type="hidden" name="id" value="{{ productId }}">
+            <div class="flex flex-col rounded-full">
+                <button type="submit" class="flex text-4xl justify-center rounded-xl bg-yellow-200 px-10 lg:px-18 py-2 font-extrabold text-black">
+                    Add to Cart
+                </button>
             </div>
-        {% endif %}
-    </div>
+        </form>
+      </div>
+    {% endif %}
+  </div>
 </div>
 
 <style>
-.custom-div-parent {
+  .custom-div-parent {
     position: relative;
     z-index: 1;
-}
+  }
 
-.custom-div-child-1 {
+  .custom-div-child-1 {
     position: absolute;
     top: 5px;
-    right: -5px; 
-    width: 100%; 
+    right: -5px;
+    width: 100%;
     height: 100%;
     z-index: -1;
     background-color: rgb(196, 60, 114);
     border-radius: 20px;
-}
+  }
 
-.custom-height {
+  .custom-height {
     height: 40rem;
-}
+  }
 
-.custom-text {
+  .custom-text {
     height: 6rem;
-}
+  }
 
-.card-container {
+  .card-container {
     opacity: 0; /* Initially hidden */
     transform: translateX(100px) rotate(15deg); /* Start off-screen and rotated */
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
     animation: none; /* Animation only triggered by IntersectionObserver */
-}
+  }
 
-.card-container.visible {
+  .card-container.visible {
     animation: flyIn 0.8s ease-in-out forwards; /* Trigger animation on visibility */
     opacity: 1;
-}
+  }
 
-/* Fly-in animation */
-@keyframes flyIn {
+  /* Fly-in animation */
+  @keyframes flyIn {
     0% {
-        opacity: 0;
-        transform: translateX(100px) rotate(15deg); /* Start off-screen and rotated */
+      opacity: 0;
+      transform: translateX(100px) rotate(15deg); /* Start off-screen and rotated */
     }
     70% {
-        opacity: 1;
-        transform: translateX(0px) rotate(5deg); /* Reduce rotation */
+      opacity: 1;
+      transform: translateX(0px) rotate(5deg); /* Reduce rotation */
     }
     100% {
-        transform: translateX(0) rotate(0deg); /* Settle to straight */
+      transform: translateX(0) rotate(0deg); /* Settle to straight */
     }
-}
+  }
 </style>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', function () {
     const cards = document.querySelectorAll('.card-container');
 
     const observer = new IntersectionObserver(
-        (entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible'); // Trigger fly-in animation
-                    observer.unobserve(entry.target); // Stop observing once animation is triggered
-                }
-            });
-        },
-        { threshold: 0.1 } // Trigger when 10% of the card is visible
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible'); // Trigger fly-in animation
+            observer.unobserve(entry.target); // Stop observing once animation is triggered
+          }
+        });
+      },
+      { threshold: 0.1 } // Trigger when 10% of the card is visible
     );
 
     cards.forEach((card) => observer.observe(card));
-});
+  });
 </script>

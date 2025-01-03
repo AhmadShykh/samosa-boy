@@ -41,9 +41,9 @@
 
         <div class="bap-notice-wrapper mt-2 text-center monsterrat">
           <div class=" pt-2">
-            <div id="countdown-timer" class=" text-6xl font-bold text-center text-gray-800">
-              <span id="hours">00</span>: <span id="minutes">00</span>:
-              <span id="seconds">00</span>
+            <div aria-label="countdown-timer" id="" class=" text-6xl font-bold text-center text-gray-800">
+              <span aria-label="hours">00</span>: <span aria-label="minutes">00</span>:
+              <span aria-label="seconds">00</span>
             </div>
             <div class="bap-notice-cal flex mt-4 items-center justify-center lg:col-span-10 m-auto p-1">
               <svg xmlns="http://www.w3.org/2000/svg" width="34" height="24" viewBox="0 0 34 24" fill="none">
@@ -51,7 +51,12 @@
               </svg>
             </div>
             <div class="bap-notice-text lg:col-span-10 pb-2">
-              {{ section.settings.order_punchline }}
+              Order with
+              <span aria-label="countdown-timer" id="countdown-timer" class=" font-bold">
+                <span aria-label="hours">00</span>: <span aria-label="minutes">00</span>:
+                <span aria-label="seconds">00</span>
+              </span>
+              for next day dispatch
             </div>
           </div>
         </div>
@@ -89,7 +94,7 @@
                     >
                       <span
                         class="franxurter w-full push-btn-surface p-4"
-                        style="background-color: rgb(235, 235, 46); color:black;"
+                        style="color:black;"
                       >
                         ADD
                       </span>
@@ -215,6 +220,12 @@
             <div class="p-8">
               <h3 class="font-heading heading-style break-words full_shadow pb-4">Personalise A Card</h3>
               <ul class="mt-6 grid gap-4 grid-cols-3 lg:grid-cols-4 bap-greeting-cards-items">
+                <li
+                  class="cursor-pointer flex items-center text-center border-black border-2 rounded-3xl greeting-card"
+                  onclick="selectNumber({{ null}},{{0 }})"
+                >
+                  <p class="text-xl text-gray">No Greeting Card</p>
+                </li>
                 {% for product in collections['gift-cards'].products %}
                   <li
                     class="cursor-pointer rounded-3xl greeting-card"
@@ -294,72 +305,74 @@
             <div class="bap-add-to-bag col-span-3 lg:col-span-2">
               <div class="relative z-10 text-center">
                 <div class="w-full"></div>
-                {% comment %} <form
-                  method="post"
-                  action="/cart/add"
-                  id="product-form-template--23889287709056__main"
-                  accept-charset="UTF-8"
-                  class="shopify-product-form"
-                  enctype="multipart/form-data"
-                  data-product-form=""
-                  data-product-handle="build-a-pack-12-pack-edit-10"
-                  data-enable-history-state="true"
-                  x-ref="productForm"
-                >
-                  <input type="hidden" name="form_type" value="product"><input type="hidden" name="utf8" value="✓">
-                  <input type="hidden" id="bap-total-quantity" value="12">
-                  <input type="hidden" id="bap-pack-price" value="5540">
-                  <input type="hidden" id="bap-product-form-id" value="product-form-template--23889287709056__main">
-                  <div class="hidden">
-                    <label class="" for="fallback-selector-template--23889287709056__main">Variant</label>
-                    <select
-                      x-ref="singleVariantSelector"
-                      name="id"
-                      id="fallback-selector-template--23889287709056__main"
-                      class="font-secondary text-sm"
-                    >
-                      <option
-                        selected="selected"
-                        x-bind:selected="currentVariantId === 52546414281088"
-                        value="52546414281088"
+                {% comment %}
+                  <form
+                    method="post"
+                    action="/cart/add"
+                    id="product-form-template--23889287709056__main"
+                    accept-charset="UTF-8"
+                    class="shopify-product-form"
+                    enctype="multipart/form-data"
+                    data-product-form=""
+                    data-product-handle="build-a-pack-12-pack-edit-10"
+                    data-enable-history-state="true"
+                    x-ref="productForm"
+                  >
+                    <input type="hidden" name="form_type" value="product"><input type="hidden" name="utf8" value="✓">
+                    <input type="hidden" id="bap-total-quantity" value="12">
+                    <input type="hidden" id="bap-pack-price" value="5540">
+                    <input type="hidden" id="bap-product-form-id" value="product-form-template--23889287709056__main">
+                    <div class="hidden">
+                      <label class="" for="fallback-selector-template--23889287709056__main">Variant</label>
+                      <select
+                        x-ref="singleVariantSelector"
+                        name="id"
+                        id="fallback-selector-template--23889287709056__main"
+                        class="font-secondary text-sm"
                       >
-                        Default Title
-                      </option>
-                    </select>
-                  </div>
+                        <option
+                          selected="selected"
+                          x-bind:selected="currentVariantId === 52546414281088"
+                          value="52546414281088"
+                        >
+                          Default Title
+                        </option>
+                      </select>
+                    </div>
 
-                  
 
-                  <input
-                    type="hidden"
-                    id="pack-contents"
-                    name="properties[Pack Contents]"
-                    value="
-                      1. WHITE XMAS
-                      2. BRUNO MARS
-                      3. DAVID HASSELHOFF
-                      4. KYLIE MINT-OGUE
-                      5. CHRISTMAS LIGHTS
-                      6. CHRISTMAS LIGHTS
-                      7. IT’S CHRISTMAS DAIM
-                      8. THE OG
-                      9. THE OG
-                      10. ICE ICE BAE BAE
-                      11. D'OH NUT
-                      12. THEY SEE ME SCROLLIN'
-                    "
-                  >
-                  <input
-                    type="hidden"
-                    id="pack-contents-clean"
-                    name="properties[__Pack Contents]"
-                    value="WHITE XMAS,BRUNO MARS,DAVID HASSELHOFF,KYLIE MINT-OGUE,CHRISTMAS LIGHTS,CHRISTMAS LIGHTS,IT'S CHRISTMAS DAIM,THE OG,THE OG,ICE ICE BAE BAE,D'OH NUT,THEY SEE ME SCROLLIN'"
-                  >
-                  <input type="hidden" id="bap-size" name="properties[Pack Size]" value="12">
 
-                  <input type="hidden" name="product-id" value="14671659467136"
-                  ><input type="hidden" name="section-id" value="template--23889287709056__main">
-                </form> {% endcomment %}
+                    <input
+                      type="hidden"
+                      id="pack-contents"
+                      name="properties[Pack Contents]"
+                      value="
+                        1. WHITE XMAS
+                        2. BRUNO MARS
+                        3. DAVID HASSELHOFF
+                        4. KYLIE MINT-OGUE
+                        5. CHRISTMAS LIGHTS
+                        6. CHRISTMAS LIGHTS
+                        7. IT’S CHRISTMAS DAIM
+                        8. THE OG
+                        9. THE OG
+                        10. ICE ICE BAE BAE
+                        11. D'OH NUT
+                        12. THEY SEE ME SCROLLIN'
+                      "
+                    >
+                    <input
+                      type="hidden"
+                      id="pack-contents-clean"
+                      name="properties[__Pack Contents]"
+                      value="WHITE XMAS,BRUNO MARS,DAVID HASSELHOFF,KYLIE MINT-OGUE,CHRISTMAS LIGHTS,CHRISTMAS LIGHTS,IT'S CHRISTMAS DAIM,THE OG,THE OG,ICE ICE BAE BAE,D'OH NUT,THEY SEE ME SCROLLIN'"
+                    >
+                    <input type="hidden" id="bap-size" name="properties[Pack Size]" value="12">
+
+                    <input type="hidden" name="product-id" value="14671659467136"
+                    ><input type="hidden" name="section-id" value="template--23889287709056__main">
+                  </form>
+                {% endcomment %}
                 <form
                   method="post"
                   action="/cart/add"
@@ -393,7 +406,7 @@
                       id="bap-add-to-cart-btn"
                     >
                       <span class="push-btn-surface p-4 w-full">
-                        <span x-text="addToCartText">Add to Cart</span>
+                        <span x-text="addToCartText">ADD TO CART</span>
                       </span>
                     </button>
                   </div>
@@ -526,12 +539,6 @@
       "id": "allegen_information_content",
       "label": "Allergen Content",
       "default": "<p><strong>Next day delivery </strong>on orders placed before 2pm!*</p>\n<p><strong>*</strong>Delivered 8am to 9pm. 97% likely to arrive on time, but on the odd occasion it could arrive the day after. For date-sensitive occasions such as birthdays, we recommend selecting one day earlier, on the rare occasion DPD delays delivery by a day.</p>\n<p><strong>Free standard weekday delivery</strong>&nbsp;on all doughnut orders.</p>\n<p><em>Weekend and pre-12 delivery upgrades are available at checkout.</em></p>\n<p>Additional charges and restrictions may apply to Northern Ireland, some Scottish addresses, Channel Islands, Isle of Man &amp; Isle of Wight. Our full list of restrictions and charges can be found here.</p>\n<p>Have some questions?</p>\n<p>Check out our full FAQ’s&nbsp;<a href=\"https://help.doughnuttime.co.uk\" target=\"_blank\" title=\"https://help.doughnuttime.co.uk\">here</a>&nbsp;or drop our customer service an email on&nbsp;<a href=\"mailto:hello@doughnuttime.co.uk\" target=\"_blank\" title=\"mailto:hello@doughnuttime.co.uk\">hello@doughnuttime.co.uk</a>.</p>"
-    },
-    {
-      "type": "richtext",
-      "id": "order_punchline",
-      "label": "Order Text",
-      "default": "<p>Order within <strong>4 hours</strong> for next dispatch.</p>"
     }
   ],
   "presets": [
