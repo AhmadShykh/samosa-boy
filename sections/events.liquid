@@ -1,0 +1,243 @@
+{% schema %}
+{
+  "name": "Events Form",
+  "settings": [],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "Events Form"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="text-center mt-5">
+  <h2 class="monsterrat text-6xl font-black">EVENT DETAILS</h2>
+  <p style="font-size: 14px; color: #555; margin-bottom: 20px;">
+    Share the details of your upcoming event. We are excited to learn more!
+  </p>
+</div>
+<div
+  class="contact-section"
+  style="display: flex; padding: 0 20px; background-color: white; flex-wrap: wrap; align-items: stretch;"
+>
+  <!-- Right Side (Form) -->
+  <div
+    class="events-form"
+    style="
+      flex: 1;
+
+
+
+
+      display: flex;
+      flex-direction: column;
+    "
+  >
+    {%- form 'contact', id: 'EventsForm', class: 'events-form monsterrat text-3xl font-black' -%}
+      {%- if form.posted_successfully? -%}
+        <h2 class="form-status form-status-list form__message" tabindex="-1" autofocus>
+          {{- 'icon-success.svg' | inline_asset_content -}}
+          {{ 'templates.contact.form.post_success' | t }}
+        </h2>
+      {%- elsif form.errors -%}
+        <div class="form__message">
+          <h2 class="form-status caption-large text-body" role="alert" tabindex="-1" autofocus>
+            {{- 'icon-error.svg' | inline_asset_content -}}
+            {{ 'templates.contact.form.error_heading' | t }}
+          </h2>
+        </div>
+        <ul class="form-status-list caption-large" role="list">
+          <li>
+            <a href="#EventsForm-data" class="link">
+              {{ form.errors.translated_fields.data | capitalize }}
+              {{ form.errors.messages.data }}
+            </a>
+          </li>
+          <li>
+            <a href="#EventsForm-city_location" class="link">
+              {{ form.errors.translated_fields.city_location | capitalize }}
+              {{ form.errors.messages.city_location }}
+            </a>
+          </li>
+          <li>
+            <a href="#EventsForm-number_of_locations" class="link">
+              {{ form.errors.translated_fields.number_of_locations | capitalize }}
+              {{ form.errors.messages.number_of_locations }}
+            </a>
+          </li>
+        </ul>
+      {%- endif -%}
+
+      <!-- Email Field -->
+      <div class="field field--with-error my-5">
+        <input
+          type="email"
+          name="contact[email]"
+          placeholder="Email"
+          class="border p-5 field__input"
+          required
+          id="contact_email"
+          aria-required="true"
+        >
+        <label class="field__label" for="contact_email">Email</label>
+        <small class="contact__field-error visually-hidden" id="ContactForm-email-error">
+          <span class="svg-wrapper">
+            {{ 'icon-error.svg' | inline_asset_content }}
+          </span>
+          Invalid email address
+        </small>
+      </div>
+
+      <!-- Data of Event Field (Date) -->
+      <div class="field my-5">
+        <input
+          type="date"
+          name="contact[data]"
+          placeholder="Date of Event"
+          class="border p-5 m-2 field__input"
+          required
+          id="EventsForm-data"
+        >
+        <label class="field__label" for="EventsForm-data">Date of Event</label>
+      </div>
+
+      <!-- City Location Field (Text) -->
+      <div class="field my-5">
+        <input
+          type="text"
+          name="contact[city_location]"
+          placeholder="City Location"
+          class="border p-5 m-2 field__input"
+          required
+          id="EventsForm-city_location"
+        >
+        <label class="field__label" for="EventsForm-city_location">City Location</label>
+      </div>
+
+      <!-- Number of Locations Field (Number) -->
+      <div class="field my-5">
+        <input
+          type="number"
+          name="contact[number_of_locations]"
+          placeholder="Number of Locations"
+          class="border p-5 m-2 field__input"
+          required
+          id="EventsForm-number_of_locations"
+        >
+        <label class="field__label" for="EventsForm-number_of_locations">Number of Locations</label>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="events__button">
+        <button
+          type="submit"
+          class="btn"
+        >
+          SUBMIT EVENT
+        </button>
+      </div>
+    {%- endform -%}
+  </div>
+</div>
+
+<style>
+          /* Responsive Design */
+          .contact-section {
+            display: flex;
+            padding:0 20px;
+            background: url('https://cdn.shopify.com/s/files/1/0901/2340/3544/files/3.png?v=1735906617') no-repeat center center;
+        background-size: contain;
+       background-size: 950px 850px;
+
+    height:80vh;
+  min-height:850px;
+
+
+
+          }
+
+          .events-form {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            width:450px;
+               align-items: center;
+        justify-content: center;
+            margin-top:120px;
+          }
+
+          .field {
+            margin: 10px 0px;
+            border-radius: 6px;
+          }
+
+          @media (max-width: 768px) {
+            .contact-section {
+              flex-direction: column;
+              background-size: 100% auto;
+            }
+
+            .events-form {
+              flex: none;
+              width: 95%;
+              height: auto; /* Default to auto height on smaller screens */
+            }
+
+          }
+
+          @media (max-width: 480px) {
+            .events-form h2 {
+              font-size: 20px;
+            }
+
+            .events-form p {
+              font-size: 12px;
+            }
+
+            .events-form button {
+              font-size: 14px;
+            }
+          }
+      .btn {
+        position: relative;
+        display: inline-block;
+        padding: 1rem 2rem;
+        background-color: yellow;
+        color: black;
+        border-radius: 6px;
+        width:100%;
+        text-decoration: none;
+        transition: 0.5s transform ease-in-out, 0.5s color ease-in-out;
+        will-change: transform, color;
+        z-index: 0;
+        overflow: hidden; /* Ensures the pseudo-element doesn't overflow the button */
+      }
+
+      .btn::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%; /* Starts completely outside the button's visible area */
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        border-radius: 6px;
+        transform: translate(0, 0) rotate(10deg); /* Ensures no overflow outside the button */
+        transform-origin: top left;
+        transition: 0.6s transform ease-out;
+        will-change: transform;
+        z-index: -1;
+      }
+
+      .btn:hover::after {
+        left: 0; /* Moves the pseudo-element into the button's area */
+      }
+
+      .btn:hover {
+        color: yellow;
+        background-color: black;
+        transform: scale(1.05);
+        will-change: transform;
+      }
+</style>
