@@ -447,6 +447,7 @@
       >
         {{ 'accessibility.loading' | t }}
       </p>
+ {% render 'delivery-date' %}
     </form>
   </div>
 </cart-items>
@@ -488,3 +489,69 @@
   ]
 }
 {% endschema %}
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+  // Initialize Flatpickr with inline mode
+  flatpickr("#delivery-date", {
+    inline: true, // Makes the calendar always visible
+    minDate: "today", // Optionally restrict past dates
+    defaultDate: "today", // Set default selected date (optional)
+  });
+</script>
+<style>
+     .flatpickr-calendar {
+       margin-top: 10px;
+       display: block;
+       background-color: #fff; /* White background */
+       border: 1px solid #ccc; /* Light grey border */
+       border-radius: 8px;
+     }
+
+     .flatpickr-day {
+       font-size: 14px;
+       color: #333; /* Text color */
+     }
+
+     .flatpickr-day.today {
+       background-color: #ff66a5; /* Pink highlight for today */
+       color: #fff;
+       border-radius: 50%; /* Circular today highlight */
+     }
+
+     .flatpickr-month {
+       background-color: #FF66A5!imprtant; /* Pink for header */
+       color: white;
+     }
+     .flatpickr-months .flatpickr-month {
+       background-color: #FF66A5!imprtant; /* Pink for header */
+       color: white;
+     }
+
+    .flatpickr-months  {
+       color: white;
+       background-color: #E61863;
+      border-radius:6px 6px 0px 0px;
+
+     }
+     .flatpickr-weekdays {
+       color: white;
+       background-color: #E61863;
+
+
+     }
+    .flatpickr-weekday {
+       color: white;
+
+
+
+     }
+    .content-center {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Optional: to center vertically */
+    width: 100%; /* Ensures the div takes full width */
+  }
+  .flatpickr-input{
+    display:none;
+  }
+</style>
