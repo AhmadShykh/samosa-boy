@@ -1,0 +1,31 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js" defer="defer"></script>
+
+<div class="content-center">
+  <input
+    id="delivery-date"
+    class="flatpickr-input"
+
+    id="delivery_date"
+    type="text"
+    placeholder="Select a date"
+    value="{{ cart.attributes.date }}"
+    id="date"
+    name="attributes[date]"
+  >
+</div>
+
+<script>
+  window.onload = function() {
+    if (window.jQuery) {
+      let $ = window.jQuery;
+
+      $(function() {
+        $("#date").datepicker({
+          minDate: +1,
+          maxDate: '+2M',
+          beforeShowDay: $.datepicker.noWeekends
+        });
+      });
+    }
+  }
+</script>
