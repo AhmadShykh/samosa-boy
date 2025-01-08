@@ -1,0 +1,33 @@
+<div
+  class=" banner"
+  style="
+          background-image: url('{{ 'character.jpg' | asset_url }}');
+          height: 100vh;
+          background-size: cover;
+        background-repeat: no-repeat;
+      background-position: 50% 40%;
+    padding:150px;
+  "
+>
+  <div class="absolute inset-0 bg-black opacity-50"></div>
+</div>
+
+{% schema %}
+{
+  "name": "Image Banner",
+  "tag": "section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Image Banner 1"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .banner {
+    margin-bottom: 30px;
+    padding:50px;
+  }
+</style>
