@@ -1,11 +1,9 @@
-<div class="relative bg-cover bg-center h-full" style="background-image: url('{{ 'header.jpg' | asset_url }}'); height: 80vh;">
+<div class="pb-20 relative bg-cover bg-center h-full" style="background-image: url('{{ 'header.jpg' | asset_url }}'); height: 80vh;">
   <div class="absolute inset-0 bg-black opacity-50"></div>
-  <div class="relative flex flex-col items-center justify-center h-full text-white">
-    <h2 class="hero-text text-9xl font-semibold  text-pink-500 transform   -rotate-12 text-left">
-      <span class="font-thin franxurter ">Filled Like...</span> <br> THAT?
-    </h2>
+  <div class="relative flex flex-col items-center justify-end h-full text-white ">
+    
     <div class="relative mt-4 "style="z-index:2;">
-      {% include 'custom-button', url: '/your-order-page-url', text: 'SHOP NOW', textSize:'6' %}
+      {% include 'custom-button', url: '/your-order-page-url', text: 'SHOP NOW', textSize:'4' %}
     </div>
   </div>
 </div>
